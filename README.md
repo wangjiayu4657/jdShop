@@ -1,4 +1,4 @@
-# jdshop
+# jdShop
 
 A new Flutter project.
 

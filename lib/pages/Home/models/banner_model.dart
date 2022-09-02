@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:jdshop/tools/Http/http_config.dart';
+import 'package:jdShop/tools/Http/http_config.dart';
 
 BannerModel bannerModelFromJson(String str) => BannerModel.fromJson(json.decode(str));
 String bannerModelToJson(BannerModel data) => json.encode(data.toJson());

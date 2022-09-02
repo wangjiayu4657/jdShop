@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
       padding: const EdgeInsets.all(8),
       child: BottomNavigationBar(
         elevation: 0.0,
-        fixedColor: Colors.blue,
+        fixedColor: Colors.redAccent,
         items: MainConfig.items,
         currentIndex: _currentIdx,
         backgroundColor: Colors.white,

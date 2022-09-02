@@ -79,7 +79,7 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Container(
         color: const Color.fromRGBO(240, 246, 246, 1),
         child: GridView.builder(
-          padding: EdgeInsets.fromLTRB(10.px, 10.px, 10.px, 0),
+          padding: EdgeInsets.all(10.px),
           itemCount: 18,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -101,8 +101,9 @@ class _CategoryPageState extends State<CategoryPage> {
           child:PlaceholderImage(imageUrl: "https://jdmall.itying.com/public/upload/RinsvExKu7Ed-ocs_7W1DxYO.png_200x200.png")
         ),
         Container(
-          height: 26.px,
-          padding: EdgeInsets.fromLTRB(8.px, 8.px, 8.px, 0),
+          height: 30.px,
+          padding: EdgeInsets.only(top: 10.px),
+          alignment: Alignment.center,
           child: Text(
             "测试商品",
             style: Theme.of(context).textTheme.bodyText1?.copyWith(

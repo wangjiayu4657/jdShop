@@ -7,6 +7,7 @@ class Storage<T> {
    static save<T>(String key, T value) async {
      final prefs = await SharedPreferences.getInstance();
      if (value is String) {
+       // ignore: avoid_print
        print("T == $T");
        prefs.setString(key, value);
      } else if(value is bool) {

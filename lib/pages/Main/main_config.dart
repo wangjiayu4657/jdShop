@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Cart/cart_page.dart';
 import '../home/home_page.dart';
-import '../category/category_page.dart';
+import '../Category/category_page.dart';
 import '../profile/profile_page.dart';
 
 class MainConfig {

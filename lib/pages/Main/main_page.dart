@@ -9,17 +9,28 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-  int _currentIdx = 1;
+class _MainPageState extends State<MainPage>  {
+  int _currentIdx = 0;
+  late PageController controller = PageController(initialPage: _currentIdx);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIdx,
+      body: PageView(
+        controller: controller,
         children: MainConfig.pages,
+        onPageChanged: (idx) {
+          setState(() => _currentIdx = idx);
+        },
       ),
       bottomNavigationBar: buildSystemBottomNavigationBar(),
+    );
+  }
+
+  Widget buildIndexedStack() {
+    return IndexedStack(
+      index: _currentIdx,
+      children: MainConfig.pages,
     );
   }
 
@@ -36,6 +47,7 @@ class _MainPageState extends State<MainPage> {
         type: BottomNavigationBarType.fixed,
         onTap: (idx){
           setState(() => _currentIdx = idx);
+          controller.jumpToPage(idx);
         },
       ),
     );

@@ -17,8 +17,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   late HomeViewModel viewModel = HomeViewModel();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -30,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       lazy: true,
       create: (context) => viewModel,
@@ -94,8 +98,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(6.px),
             scrollDirection: Axis.horizontal,
             itemCount: viewModel.likeItems.length,
-            itemBuilder: (context, idx) =>
-              buildLikeItem(context, viewModel.likeItems[idx]),
+            itemBuilder: (context, idx) => buildLikeItem(context, viewModel.likeItems[idx]),
           );
         },
       ),

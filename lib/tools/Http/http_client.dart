@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'http_config.dart';
@@ -24,7 +22,7 @@ class HttpClient {
     //添加全局拦截器
     Interceptor globalInterceptor = InterceptorsWrapper(
       onRequest: (options,handler) {
-        debugPrint("请求拦截: \n url =${options.uri} \n param = ${options.queryParameters}");
+        debugPrint("请求拦截: \n url = ${options.uri} \n param = ${options.queryParameters}");
         handler.next(options);
       },
       onResponse: (response,handler) {
@@ -45,7 +43,6 @@ class HttpClient {
 
     try {
       Response response = await dio.request(url, queryParameters: params, options: options);
-      print("response ==== ${response.data}");
       return response.data;
     } on DioError catch(err) {
       return Future.error(err);

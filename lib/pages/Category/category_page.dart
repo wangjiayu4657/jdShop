@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Category/category_product_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../tools/share/const_config.dart';
@@ -92,7 +93,7 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
               height: 59.px,
               alignment: Alignment.center,
               color: _selectedIdx == idx ? const Color.fromRGBO(240, 246, 246, 1) : Colors.white,
-              child: Text(model.title ?? "",style: TextStyle(fontSize: 14.px))
+              child: Text(model.title ?? "",style: Theme.of(context).textTheme.bodyText1)
             ),
             const Expanded(child: Divider())
           ],
@@ -129,23 +130,26 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
 
   //右边物品列表item
   Widget buildRightListItem(BuildContext context, CategoryItemModel model) {
-    return Column(
-      children: [
-        Expanded(child:PlaceholderImage(imageUrl: model.imgUrl)),
-        Container(
-          height: 30.px,
-          padding: EdgeInsets.only(top: 10.px),
-          alignment: Alignment.center,
-          child: Text(
-            model.title ?? "",
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              fontSize: 14,
-              color: Colors.black54,
-              fontWeight: FontWeight.normal
-            )
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, CategoryProductPage.routeName,arguments: model.id),
+      child: Column(
+        children: [
+          Expanded(child:PlaceholderImage(url: model.imgUrl)),
+          Container(
+            height: 30.px,
+            padding: EdgeInsets.only(top: 10.px),
+            alignment: Alignment.center,
+            child: Text(
+              model.title ?? "",
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                fontSize: 14,
+                color: Colors.black54,
+                fontWeight: FontWeight.normal
+              )
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

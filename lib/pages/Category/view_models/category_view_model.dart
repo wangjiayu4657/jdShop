@@ -19,7 +19,6 @@ class CategoryViewModel extends ChangeNotifier {
 
   //请求分类商品列表
   Future<List<CategoryItemModel>> requestCategoryDetailData(String? pid) async {
-    print("pid ====== $pid");
     var response = await HttpClient.request(url: "api/pcate?pid=$pid", method: "get");
     List result = response["result"];
     categoryItems = result.map((e) => CategoryItemModel.fromJson(e)).toList();
@@ -30,7 +29,6 @@ class CategoryViewModel extends ChangeNotifier {
   //请求并缓存分类商品列表
   void cacheRequestCategoryDetailData(String? id) async {
     if(id == null) return;
-    print("id ===== $id");
     List<CategoryItemModel>? list = _items[id];
     categoryItems = list ?? await requestCategoryDetailData(id);
     list == null ? _items[id] = categoryItems : notifyListeners();

@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                 pagination: const SwiperPagination(),
                 control: const SwiperControl(),
                 itemCount: model.bannerItems.length,
-                itemBuilder: (context, idx) => PlaceholderImage(imageUrl:model.bannerItems[idx].imageUrl),
+                itemBuilder: (context, idx) => PlaceholderImage(url: model.bannerItems[idx].imageUrl),
               );
         },
       ),
@@ -83,7 +83,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           color: Colors.redAccent,
           margin: EdgeInsets.fromLTRB(15.px, 10.px, 10.px, 10.px),
         ),
-        Text(sectionTitle, style: Theme.of(context).textTheme.bodyText2),
+        Text(sectionTitle,
+          style: Theme.of(context).textTheme.headline2?.copyWith(fontWeight: FontWeight.bold)
+        ),
       ],
     );
   }
@@ -113,7 +115,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           width: 100.px,
           height: 100.px,
           padding: EdgeInsets.all(6.px),
-          child: PlaceholderImage(imageUrl: model.imageUrl),
+          child: PlaceholderImage(url: model.imageUrl),
         ),
         Container(
           width: 100.px,
@@ -123,7 +125,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             model.title ?? "",
             maxLines: 2,
             overflow: TextOverflow.visible,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 12.px)
+            style: Theme.of(context).textTheme.headline3
           )
         )
       ],
@@ -157,7 +159,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         children: [
           SizedBox(
             height: 180.px,
-            child: PlaceholderImage(imageUrl: productItem.imageUrl)
+            child: PlaceholderImage(url: productItem.imageUrl)
           ),
           Padding(
             padding: EdgeInsets.all(8.px),

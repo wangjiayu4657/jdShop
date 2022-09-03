@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../../tools/extension/int_extension.dart';
 
 class ThemeConfig {
-  static final double bodyFontSize = 14.px;
-  static final double smallFontSize = 16.px;
-  static final double mediumFontSize = 18.px;
-  static final double largeFontSize = 22.px;
+  static final double smallFontSize = 12.px;
+  static final double normalFontSize = 14.px;
+  static final double mediumFontSize = 16.px;
+  static final double largeFontSize = 18.px;
 
   //默认主题
   static const normalTextColor = Colors.black54;
@@ -19,13 +19,12 @@ class ThemeConfig {
   );
 
   static final TextTheme normalTextTheme = TextTheme(
-    bodyText1: TextStyle(fontSize: bodyFontSize,color: normalTextColor),
-    bodyText2: TextStyle(fontSize: smallFontSize,color: normalTextColor,fontWeight: FontWeight.bold),
+    bodyText1: TextStyle(fontSize: normalFontSize, color: normalTextColor,fontWeight: FontWeight.bold),
+    bodyText2: TextStyle(fontSize: normalFontSize, color: normalTextColor), //默认使用
 
-    headline1: TextStyle(fontSize: largeFontSize,color: normalTextColor,fontWeight: FontWeight.bold),
-    headline2: TextStyle(fontSize: largeFontSize,color: normalTextColor),
-    headline3: TextStyle(fontSize: mediumFontSize,color: normalTextColor),
-    headline4: TextStyle(fontSize: smallFontSize,color: normalTextColor),
+    headline1: TextStyle(fontSize: largeFontSize, color: normalTextColor),
+    headline2: TextStyle(fontSize: mediumFontSize, color: normalTextColor),
+    headline3: TextStyle(fontSize: smallFontSize, color: normalTextColor),
   );
 
   //暗黑主题
@@ -37,12 +36,12 @@ class ThemeConfig {
     textTheme:  darkTextTheme,
   );
   static final TextTheme darkTextTheme = TextTheme(
-    bodyText1: TextStyle(fontSize: bodyFontSize,color: darkTextColor),
-    bodyText2: TextStyle(fontSize: mediumFontSize,color: darkTextColor,fontWeight: FontWeight.bold),
-    headline1: TextStyle(fontSize: largeFontSize,color: normalTextColor,fontWeight: FontWeight.bold),
-    headline2: TextStyle(fontSize: largeFontSize,color: normalTextColor),
-    headline3: TextStyle(fontSize: mediumFontSize,color: normalTextColor),
-    headline4: TextStyle(fontSize: smallFontSize,color: normalTextColor),
+    bodyText1: TextStyle(fontSize: normalFontSize, color: darkTextColor,fontWeight: FontWeight.bold),
+    bodyText2: TextStyle(fontSize: normalFontSize, color: darkTextColor),
+
+    headline1: TextStyle(fontSize: largeFontSize, color: darkTextColor),
+    headline2: TextStyle(fontSize: mediumFontSize, color: darkTextColor),
+    headline3: TextStyle(fontSize: smallFontSize, color: darkTextColor),
   );
 
 

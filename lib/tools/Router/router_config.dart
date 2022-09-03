@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Category/category_product_page.dart';
 
 import '../../pages/Home/home_page.dart';
 import '../../pages/Main/main_page.dart';
@@ -14,6 +15,7 @@ class RouterConfig {
     CategoryPage.routeName: (ctx) => const CategoryPage(),
     CartPage.routeName: (ctx) => const CartPage(),
     ProfilePage.routeName: (ctx) => const ProfilePage(),
+    CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(id: arguments)
   };
 
   //统一处理

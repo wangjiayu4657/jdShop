@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -10,6 +10,7 @@ import '../../tools/extension/int_extension.dart';
 import '../../pages/Category/models/tab_item_model.dart';
 import '../../tools/json_parse/json_parse.dart';
 import '../../tools/extension/color_extension.dart';
+import '../../pages/Category/product_filter_page.dart';
 
 class CategoryProductPage extends StatefulWidget {
   static const String routeName = "/categoryProduct";
@@ -113,7 +114,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
         title: const Text("商品列表"),
         actions: const [Text("")]
       ),
-      endDrawer: const Drawer(),
+      endDrawer: const ProductFilterPage(),
       body: Stack(
         children: [
           Positioned(top: 0, child:buildTopTabViewWidget()),

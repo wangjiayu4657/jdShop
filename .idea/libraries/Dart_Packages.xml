@@ -331,6 +331,13 @@
             </list>
           </value>
         </entry>
+        <entry key="pull_to_refresh_flutter3">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/pull_to_refresh_flutter3-2.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="shared_preferences">
           <value>
             <list>
@@ -539,6 +546,7 @@
       <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/process-4.2.4/lib" />
       <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/protobuf-2.1.0/lib" />
       <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/provider-6.0.3/lib" />
+      <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/pull_to_refresh_flutter3-2.0.1/lib" />
       <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-2.0.15/lib" />
       <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_android-2.0.12/lib" />
       <root url="file://$USER_HOME$/Documents/development/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_ios-2.1.1/lib" />

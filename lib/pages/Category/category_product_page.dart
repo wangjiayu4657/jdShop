@@ -164,6 +164,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
   }
 
   Widget buildListViewWidget() {
+    print("_controller.isRefresh ==> ${_controller.isRefresh}");
     return Container(
       width: width,
       height: height - 68.px,
@@ -176,11 +177,13 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
         onLoading: _onLoading,
         header: const WaterDropHeader(),
         footer: _enablePullUp ? const ClassicFooter() : buildCustomListFooterWidget(),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: _productItems.length,
-          itemBuilder: (context,idx) => buildListItemWidget(_productItems[idx]),
-        ),
+        child: _productItems.isEmpty ?
+          const Center(child: Text("暂无数据")) :
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: _productItems.length,
+            itemBuilder: (context,idx) => buildListItemWidget(_productItems[idx]),
+          ),
       ),
     );
   }
@@ -264,7 +267,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
      builder: (context,status){
        return SizedBox(
          height: 56.px,
-         child: const Center(child: Text("没有更多数据了!")),
+         child: Center(child: Text(_productItems.isEmpty ? "暂无数据" : "没有更多数据了!")),
        );
      },
     );

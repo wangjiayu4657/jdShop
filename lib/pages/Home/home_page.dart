@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Other/search_page.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 
 import '../CustomWidgets/placeholder_image.dart';
+import '../../tools/widgets/search_bar.dart';
 import '../../tools/share/const_config.dart';
 import '../../pages/Home/models/product_model.dart';
 import '../../tools/extension/int_extension.dart';
@@ -38,7 +40,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       lazy: true,
       create: (context) => viewModel,
       child: Scaffold(
-        appBar: AppBar(title: const Text("首页")),
+        appBar: SearchBar(
+          isEdit: false,
+          onTap: () => Navigator.pushNamed(context, SearchPage.routeName),
+        ),
         body: ListView(
           children: [
             buildSwiperWidget(),

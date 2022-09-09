@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/tools/extension/color_extension.dart';
-import 'package:jdShop/tools/extension/double_extension.dart';
 
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../tools/share/const_config.dart';
+import '../../tools/extension/color_extension.dart';
+
 
 class ProductFilterPage extends StatefulWidget {
   const ProductFilterPage({Key? key}) : super(key: key);

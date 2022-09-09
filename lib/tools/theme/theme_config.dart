@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/tools/extension/color_extension.dart';
 import '../../tools/extension/int_extension.dart';
 
 class ThemeConfig {
@@ -11,6 +12,7 @@ class ThemeConfig {
   static const normalTextColor = Colors.black54;
   static final ThemeData normalTheme = ThemeData(
     primarySwatch: Colors.pink,
+    primaryColor: Colors.redAccent,
     splashColor: Colors.transparent,
     canvasColor: Colors.white,
     textTheme: normalTextTheme,
@@ -59,7 +61,7 @@ class ThemeConfig {
       backgroundColor: MaterialStateProperty.resolveWith((states){
         return states.contains(MaterialState.pressed) ? Colors.orange : Colors.pink;
       }),
-      textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 15.px,fontWeight: FontWeight.w600,color: Colors.green))
+      textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 15.px,fontWeight: FontWeight.normal,color: Colors.green))
     )
   );
 }

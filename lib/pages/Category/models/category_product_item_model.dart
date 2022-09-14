@@ -39,7 +39,7 @@ class CategoryProductItemModel {
   String? title;
   String? cid;
   dynamic price;
-  String? oldPrice;
+  dynamic oldPrice;
   String? pic;
   String? sPic;
 

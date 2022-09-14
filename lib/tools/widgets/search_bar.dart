@@ -40,8 +40,8 @@ class SearchBar extends AppBar {
           TextButton(
               onPressed: () async {
                 if (searchClick != null) {
-                  String search = await Storage.fetch<String>(kSearchKey);
-                  searchClick(search);
+                  var search = await Storage.fetch<String>(kSearchKey);
+                  searchClick("$search");
                 }
               },
               child: isHiddenSearchText ? const Text("") : Text(searchText ?? "搜索",style: TextStyle(fontSize: 14.px, color: Colors.white))

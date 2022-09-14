@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jdShop/pages/Category/category_product_page.dart';
+import 'package:jdShop/pages/Category/product_detail_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../tools/share/const_config.dart';
@@ -131,7 +132,7 @@ class _CategoryPageState extends State<CategoryPage> with AutomaticKeepAliveClie
   //右边物品列表item
   Widget buildRightListItem(BuildContext context, CategoryItemModel model) {
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, CategoryProductPage.routeName,arguments: model.id),
+      onTap: () => Navigator.pushNamed(context, ProductDetailPage.routeName,arguments: model.id),
       child: Column(
         children: [
           Expanded(child:PlaceholderImage(url: model.imgUrl)),

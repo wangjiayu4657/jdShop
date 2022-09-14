@@ -14,9 +14,9 @@ import '../../pages/Category/product_filter_page.dart';
 
 class CategoryProductPage extends StatefulWidget {
   static const String routeName = "/categoryProduct";
-  const CategoryProductPage({Key? key, required this.id}) : super(key: key);
+  const CategoryProductPage({Key? key, this.argument}) : super(key: key);
 
-  final String id;
+  final Map<String,dynamic>? argument;
 
   @override
   State<CategoryProductPage> createState() => _CategoryProductPageState();
@@ -36,8 +36,12 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
 
   late final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
+  late String? id = widget.argument?["id"];
+  late String? search = widget.argument?["search"];
+
   void requestProductListData() async {
-    String url = "api/plist?cid=${widget.id}&sort=$_sort&page=$_page&pageSize=10";
+    String query = search == null ? "cid=$id" : "search=$search";
+    String url = "api/plist?$query&sort=$_sort&page=$_page&pageSize=10";
     var result = await HttpClient.request(url: url, method: "get");
     CategoryProductModel model = CategoryProductModel.fromJson(result);
     List<CategoryProductItemModel> items = model.items ?? [];

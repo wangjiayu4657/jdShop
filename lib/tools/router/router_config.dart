@@ -7,6 +7,7 @@ import '../../pages/Category/category_page.dart';
 import '../../pages/Profile/profile_page.dart';
 import '../../pages/Other/unknown_page.dart';
 import '../../pages/Other/search_page.dart';
+import '../../pages/Category/product_detail_page.dart';
 import '../../pages/Category/category_product_page.dart';
 
 class RouterConfig {
@@ -17,7 +18,8 @@ class RouterConfig {
     CartPage.routeName: (ctx) => const CartPage(),
     ProfilePage.routeName: (ctx) => const ProfilePage(),
     SearchPage.routeName: (ctx) => const SearchPage(),
-    CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(id: arguments)
+    CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),
+    ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments)
   };
 
   //统一处理

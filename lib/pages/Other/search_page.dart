@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Category/category_product_page.dart';
+import 'package:provider/provider.dart';
 
 import '../../tools/extension/int_extension.dart';
 import '../../tools/share/const_config.dart';
 import '../../tools/widgets/search_bar.dart';
 import '../../tools/extension/color_extension.dart';
+import 'view_models/search_view_model.dart';
 
 class SearchPage extends StatefulWidget {
   static const String routeName = "/search";
@@ -14,50 +17,45 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  late final SearchViewModel _viewModel = SearchViewModel();
   final List<String> _hotItems = ["超级秒杀","办公用品","儿童小汽车","唇彩唇蜜","装修专用耗材","地板"];
-  final List<String> _historyItems = ["超级秒杀","办公用品","儿童小汽车","唇彩唇蜜","装修专用耗材","地板","超级秒杀","办公用品","儿童小汽车","唇彩唇蜜","装修专用耗材","地板"];
-
-  GlobalKey wrapHeightKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    wrapHeightKey.currentContext?.size?.height;
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SearchBar(
-        placeholder: "请输入需要搜索的内容",
-        isHiddenSearchText: false,
-        searchClick: (search){
-
-        },
-      ),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 5.px,
-            width: width,
-            height: height - 115.px,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                buildHotSearchWidget(),
-                buildHistoryWidget()
-              ],
+    return ChangeNotifierProvider<SearchViewModel>(
+      create: (BuildContext context) => _viewModel,
+      child: Scaffold(
+        appBar: SearchBar(
+          placeholder: "请输入需要搜索的内容",
+          isHiddenSearchText: false,
+          searchClick: (search){
+            Navigator.pushNamed(context, CategoryProductPage.routeName,arguments: {"search":search});
+            _viewModel.saveSearchContent(search);
+          },
+        ),
+        body: Stack(
+          children: [
+            Positioned(
+              top: 5.px,
+              width: width,
+              height: height - 110.px,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  buildHotSearchWidget(),
+                  buildHistoryWidget()
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 0.px,
-            width: width,
-            height: 105.px,
-            child: clearHistorySearchButtonWidget(),
-          )
-        ],
-      )
+            Positioned(
+              bottom: 0.px,
+              width: width,
+              height: 105.px,
+              child: clearHistorySearchButtonWidget(),
+            )
+          ],
+        )
+      ),
     );
   }
 
@@ -108,16 +106,19 @@ class _SearchPageState extends State<SearchPage> {
   Widget buildHotSearchItemWidget(String item) {
     return SizedBox(
       height: 32.px,
-      child: Chip(
-        backgroundColor: ColorExtension.lineColor,
-        padding: EdgeInsets.symmetric(horizontal: 10.px),
-        label: Text( item,
-          style: TextStyle(
-            fontSize: 12.px,
-            color: Colors.black54,
-            fontWeight: FontWeight.normal
+      child: InkWell(
+        onTap: () => Navigator.pushNamed(context, CategoryProductPage.routeName,arguments: {"search":item}),
+        child: Chip(
+          backgroundColor: ColorExtension.lineColor,
+          padding: EdgeInsets.symmetric(horizontal: 10.px),
+          label: Text( item,
+            style: TextStyle(
+              fontSize: 12.px,
+              color: Colors.black54,
+              fontWeight: FontWeight.normal
+            )
           )
-        )
+        ),
       ),
     );
   }
@@ -142,21 +143,30 @@ class _SearchPageState extends State<SearchPage> {
   Widget buildHistoryListWidget() {
     return SizedBox(
       height: height - 225.px - 120.px,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: _historyItems.length,
-        itemBuilder: (context,idx){
-          return Column(
-            children: [
-              ListTile(
-                onTap: (){},
-                contentPadding: EdgeInsets.zero,
-                title: Text(_historyItems[idx]),
-              ),
-              const Divider(height: 1),
-            ],
+      child: Consumer<SearchViewModel>(
+        builder: (context,viewModel,child){
+          return viewModel.historyItems.isEmpty ?
+          const Center( child: Text("暂无历史记录")) :
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: viewModel.historyItems.length,
+            itemBuilder: (context,idx){
+              String search = viewModel.historyItems[idx];
+              return Column(
+                children: [
+                  ListTile(
+                    title: Text(search),
+                    contentPadding: EdgeInsets.zero,
+                    onTap: () => Navigator.pushNamed(context, CategoryProductPage.routeName,arguments: {"search":search}),
+                    onLongPress: () => showAlertDialog(record:search),
+                  ),
+                  child ?? const Divider(height: 1),
+                ],
+              );
+            },
           );
         },
+        child: const Divider(height: 1),
       ),
     );
   }
@@ -168,9 +178,7 @@ class _SearchPageState extends State<SearchPage> {
       alignment: Alignment.center,
       padding: EdgeInsets.only(bottom: 15.px),
       child: InkWell(
-        onTap: (){
-          print("清空历史记录");
-        },
+        onTap: () => showAlertDialog(),
         child: Container(
           width: width - 40.px,
           height: 48.px,
@@ -189,6 +197,34 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void showAlertDialog({String? record}) {
+    String content = record == null ? "确定要清空历史记录吗?" : "确定要删除`$record`这条记录吗?";
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: const Text("提示",textAlign: TextAlign.center),
+          content: Text(content),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(child: const Text("取消"),onPressed: (){
+              Navigator.pop(context);
+            }),
+            SizedBox(width: 20.px),
+            ElevatedButton(child: const Text("确定"),onPressed: (){
+              if (record == null) {
+                _viewModel.clearHistoryRecord();
+              } else {
+                _viewModel.removeHistoryRecordItems(record);
+              }
+              Navigator.pop(context);
+            }),
+          ],
+        );
+      }
     );
   }
 

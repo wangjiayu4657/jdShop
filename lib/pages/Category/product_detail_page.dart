@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/tools/extension/color_extension.dart';
 
 import '../../tools/share/const_config.dart';
 import '../../tools/extension/int_extension.dart';
+import '../../tools/extension/color_extension.dart';
 import '../../pages/Category/product_detail_detail_page.dart';
 import '../../pages/Category/product_detail_product_page.dart';
 import '../../pages/Category/product_detail_evaluation_page.dart';
+import '../../tools/widgets/shopping_button.dart';
 
 class ProductDetailPage extends StatefulWidget {
   static const String routeName = "/productDetail";
@@ -121,7 +122,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         children: [
           shoppingCartWidget(),
           Expanded(
-            child: shoppingButtonWidget(
+            child: ShoppingButton(
               title: "加入购物车",
               backgroundColor: Colors.redAccent,
               onPressed: (){
@@ -130,7 +131,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             )
           ),
           Expanded(
-            child: shoppingButtonWidget(
+            child: ShoppingButton(
               title: "立即购买",
               backgroundColor: Colors.orange,
               onPressed: (){
@@ -145,32 +146,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   //购物车
   Widget shoppingCartWidget() {
-    return Container(
-      width: 80.px,
-      padding: EdgeInsets.symmetric(vertical: 10.px,horizontal: 10.px),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(Icons.shopping_cart),
-          Text("购物车")
-        ],
-      ),
-    );
-  }
-
-  //按钮
-  Widget shoppingButtonWidget({required String title,Color? backgroundColor,VoidCallback? onPressed}) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15.px),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.resolveWith((states) {
-            return Size(double.infinity, 36.px);
-          }),
-          backgroundColor: MaterialStateProperty.all(backgroundColor)
+    return InkWell(
+      onTap: () => debugPrint("加入购物车"),
+      child: Container(
+        width: 80.px,
+        padding: EdgeInsets.symmetric(vertical: 10.px,horizontal: 10.px),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.shopping_cart),
+            Text("购物车")
+          ],
         ),
-        child: Text(title,style: const TextStyle(color: Colors.white))
       ),
     );
   }

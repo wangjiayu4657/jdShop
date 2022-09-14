@@ -17,6 +17,7 @@ class ThemeConfig {
     canvasColor: Colors.white,
     textTheme: normalTextTheme,
     textButtonTheme:buttonTheme,
+    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.black12),
     elevatedButtonTheme: elevatedButtonThemeData
   );
 

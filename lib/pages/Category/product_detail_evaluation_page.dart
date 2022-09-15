@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
-//商品详情 - 评价
-class ProductDetailEvaluationPage extends StatelessWidget {
-  const ProductDetailEvaluationPage({Key? key}) : super(key: key);
+import 'models/product_detail_model.dart';
 
+//商品详情 - 评价
+class ProductDetailEvaluationPage extends StatefulWidget {
+  const ProductDetailEvaluationPage({Key? key,this.model}) : super(key: key);
+
+  final ProductDetailModel? model;
+  @override
+  State<ProductDetailEvaluationPage> createState() => _ProductDetailEvaluationPageState();
+}
+
+class _ProductDetailEvaluationPageState extends State<ProductDetailEvaluationPage> {
   @override
   Widget build(BuildContext context) {
     return Container(

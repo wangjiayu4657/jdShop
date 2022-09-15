@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Category/models/product_detail_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../tools/share/const_config.dart';
 import '../../tools/extension/int_extension.dart';
@@ -7,6 +9,7 @@ import '../../pages/Category/product_detail_detail_page.dart';
 import '../../pages/Category/product_detail_product_page.dart';
 import '../../pages/Category/product_detail_evaluation_page.dart';
 import '../../tools/widgets/shopping_button.dart';
+import '../../pages/Category/view_models/product_detail_view_model.dart';
 
 class ProductDetailPage extends StatefulWidget {
   static const String routeName = "/productDetail";
@@ -19,6 +22,8 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+
+  late final ProductDetailViewModel _viewModel = ProductDetailViewModel(id: widget.id);
 
   //展示下拉菜单
   void showMenuWidget() {
@@ -35,25 +40,34 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _viewModel.detailDataRequest();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: const Text("商品详情"),
-          bottom: tabBarWidget(),
-          actions: [
-            IconButton(
-              onPressed: showMenuWidget,
-              icon: const Icon(Icons.more_horiz))
-          ],
-        ),
-        body: Column(
-          children: [
-            Expanded(child: tabBarViewWidget()),
-            bottomToolWidget()
-          ],
+      child: ChangeNotifierProvider<ProductDetailViewModel>(
+        create: (context) => _viewModel,
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            title: const Text("商品详情"),
+            bottom: tabBarWidget(),
+            actions: [
+              IconButton(
+                onPressed: showMenuWidget,
+                icon: const Icon(Icons.more_horiz))
+            ],
+          ),
+          body: Column(
+            children: [
+              Expanded(child: tabBarViewWidget()),
+              bottomToolWidget()
+            ],
+          ),
         ),
       ),
     );
@@ -82,12 +96,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   //导航栏内容
   Widget tabBarViewWidget() {
-    return const TabBarView(
-      children: [
-        ProductDetailProductPage(),
-        ProductDetailDetailPage(),
-        ProductDetailEvaluationPage()
-      ],
+    return Consumer<ProductDetailViewModel>(
+      builder: (context,viewModel,child){
+        return TabBarView(
+          children: [
+            ProductDetailProductPage(model:viewModel.model),
+            ProductDetailDetailPage(model: viewModel.model),
+            ProductDetailEvaluationPage(model:viewModel.model)
+          ],
+        );
+      },
     );
   }
 

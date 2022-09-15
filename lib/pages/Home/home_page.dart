@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Other/search_page.dart';
+import 'package:jdShop/pages/Category/product_detail_page.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 
@@ -9,6 +9,7 @@ import '../../tools/share/const_config.dart';
 import '../../pages/Home/models/product_model.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../pages/Home/view_models/home_view_model.dart';
+import '../../pages/Other/search_page.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/home";
@@ -47,9 +48,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         body: ListView(
           children: [
             buildSwiperWidget(),
-            buildSectionTitleWidget(context, "猜你喜欢"),
+            buildSectionTitleWidget("猜你喜欢"),
             buildLikeListWidget(),
-            buildSectionTitleWidget(context, "热门推荐"),
+            buildSectionTitleWidget("热门推荐"),
             buildHotProductListWidget()
           ],
         ),
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   }
 
   //构建组头控件
-  Widget buildSectionTitleWidget(BuildContext context, String sectionTitle) {
+  Widget buildSectionTitleWidget(String sectionTitle) {
     return Row(
       children: [
         Container(
@@ -114,26 +115,29 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   //猜你喜欢item
   Widget buildLikeItem(BuildContext context, ProductItemModel model) {
-    return Column(
-      children: [
-        Container(
-          width: 100.px,
-          height: 100.px,
-          padding: EdgeInsets.all(6.px),
-          child: PlaceholderImage(url: model.imageUrl),
-        ),
-        Container(
-          width: 100.px,
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(6.px),
-          child: Text(
-            model.title ?? "",
-            maxLines: 2,
-            overflow: TextOverflow.visible,
-            style: Theme.of(context).textTheme.headline3
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, ProductDetailPage.routeName,arguments: model.id),
+      child: Column(
+        children: [
+          Container(
+            width: 100.px,
+            height: 100.px,
+            padding: EdgeInsets.all(6.px),
+            child: PlaceholderImage(url: model.imageUrl),
+          ),
+          Container(
+            width: 100.px,
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(6.px),
+            child: Text(
+              model.title ?? "",
+              maxLines: 2,
+              overflow: TextOverflow.visible,
+              style: Theme.of(context).textTheme.headline3
+            )
           )
-        )
-      ],
+        ],
+      ),
     );
   }
 
@@ -156,31 +160,34 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   //热门推荐item
   Widget buildProductItem(ProductItemModel productItem) {
     double itemWidth = (width - 30.px) / 2;
-    return Container(
-      padding: EdgeInsets.all(8.px),
-      width: itemWidth,
-      decoration: BoxDecoration(border: Border.all(color: const Color.fromRGBO(233, 233, 233, 1))),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 180.px,
-            child: PlaceholderImage(url: productItem.imageUrl)
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.px),
-            child: Text(
-              productItem.title ?? "",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 14.px,
-                color: Colors.black54,
-                fontWeight: FontWeight.normal
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, ProductDetailPage.routeName,arguments: productItem.id),
+      child: Container(
+        padding: EdgeInsets.all(8.px),
+        width: itemWidth,
+        decoration: BoxDecoration(border: Border.all(color: const Color.fromRGBO(233, 233, 233, 1))),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 180.px,
+              child: PlaceholderImage(url: productItem.imageUrl)
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.px),
+              child: Text(
+                productItem.title ?? "",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14.px,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.normal
+                ),
               ),
             ),
-          ),
-          buildProductItemBottomPriceWidget(productItem)
-        ],
+            buildProductItemBottomPriceWidget(productItem)
+          ],
+        ),
       ),
     );
   }

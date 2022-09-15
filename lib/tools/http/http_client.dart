@@ -12,7 +12,7 @@ class HttpClient {
 
   static Future<T> request<T> ({
     required String url,
-    String method = "post",
+    String method = "get",
     Map<String,dynamic>? params,
     Interceptor? interceptor
   }) async {
@@ -22,11 +22,11 @@ class HttpClient {
     //添加全局拦截器
     Interceptor globalInterceptor = InterceptorsWrapper(
       onRequest: (options,handler) {
-        // debugPrint("请求拦截: \n url = ${options.uri} \n param = ${options.queryParameters}");
+        debugPrint("请求拦截: \n url = ${options.uri} \n param = ${options.queryParameters}");
         handler.next(options);
       },
       onResponse: (response,handler) {
-        // debugPrint("响应拦截: ${response.data}");
+        debugPrint("响应拦截: ${response.data}");
         handler.next(response);
       },
       onError: (error,handler){
@@ -49,3 +49,7 @@ class HttpClient {
     }
   }
 }
+
+
+
+//https://jdmall.itying.com/api/pcontent?id=59f6a2d27ac40b223cfdcf81

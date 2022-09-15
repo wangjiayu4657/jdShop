@@ -4,11 +4,14 @@ import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../tools/widgets/shopping_button.dart';
+import '../../pages/Category/models/product_detail_model.dart';
 
 
 //商品详情 - 商品
 class ProductDetailProductPage extends StatefulWidget {
-  const ProductDetailProductPage({Key? key}) : super(key: key);
+  const ProductDetailProductPage({Key? key, this.model}) : super(key: key);
+
+  final ProductDetailModel? model;
 
   @override
   State<ProductDetailProductPage> createState() => _ProductDetailProductPageState();
@@ -41,10 +44,10 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
 
   //构建商品图片组件
   Widget buildProductPictureWidget() {
-    return const AspectRatio(
-      aspectRatio: 16/9,
+    return AspectRatio(
+      aspectRatio: 16 / 9,
       child: PlaceholderImage(
-        url: "https://www.itying.com/images/flutter/p1.jpg",
+        url: widget.model?.imgUrl,
         fit: BoxFit.contain
       ),
     );
@@ -55,16 +58,11 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.px,horizontal: 10.px),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "联想ThinkPad 翼480（0VCD） 英特尔酷睿i5 14英寸轻薄窄边框笔记本电脑",
-            style: Theme.of(context).textTheme.headline2
-          ),
+          Text(widget.model?.title ?? "", style: Theme.of(context).textTheme.headline2),
           SizedBox(height: 10.px),
-          Text(
-            "震撼首发，15.9毫米全金属外观，4.9毫米轻薄窄边框，指纹电源按钮，杜比音效，2G独显，预装正版office软件",
-            style: TextStyle(fontSize: 12.px,color: Colors.black45)
-          ),
+          Text(widget.model?.subTitle ?? "", style: TextStyle(fontSize: 12.px,color: Colors.black45)),
         ],
       ),
     );
@@ -90,7 +88,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return Row(
       children: [
         const Text("特价: "),
-        Text("¥28",style: Theme.of(context).textTheme.headline2?.copyWith(color: Colors.redAccent))
+        Text("¥${widget.model?.price ?? ""}",style: Theme.of(context).textTheme.headline2?.copyWith(color: Colors.redAccent))
       ],
     );
   }
@@ -100,7 +98,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return Row(
       children: [
         const Text("原价: "),
-        Text("¥28",style: Theme.of(context).textTheme.headline2?.copyWith(
+        Text("¥${widget.model?.oldPrice ?? ""}",style: Theme.of(context).textTheme.headline2?.copyWith(
           decoration: TextDecoration.lineThrough
         ))
       ],
@@ -256,7 +254,4 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
       ),
     );
   }
-
-
-
 }

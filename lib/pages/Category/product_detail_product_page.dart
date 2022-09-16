@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../tools/extension/int_extension.dart';
-import '../../tools/extension/color_extension.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../tools/widgets/shopping_button.dart';
 import '../../pages/Category/models/product_detail_model.dart';
@@ -23,10 +22,10 @@ class ProductDetailProductPage extends StatefulWidget {
 class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
 
   //展示底部条件筛选组件
-  void showFilterSheetWidget() {
+  void showFilterSheetWidget(BuildContext context) {
     showBottomSheet(
       context: context,
-      builder: (context) => buildFilterSheetWidget()
+      builder: (context) => buildFilterSheetWidget(context)
     );
   }
 
@@ -39,7 +38,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
           buildProductPictureWidget(),
           buildProductDescWidget(),
           buildProductPriceWidget(),
-          buildOtherListWidget(),
+          buildOtherListWidget(context),
         ],
       ),
     );
@@ -109,23 +108,23 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
   }
 
   //构建其他条目组件
-  Widget buildOtherListWidget() {
+  Widget buildOtherListWidget(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        buildSelectedItemWidget(),
+        buildSelectedItemWidget(context),
         buildFreightItemWidget(),
       ],
     );
   }
 
   //构建展示已筛选条件组件
-  Widget buildSelectedItemWidget() {
+  Widget buildSelectedItemWidget(BuildContext context) {
     return Column(
       children: [
         ListTile(
-          onTap: showFilterSheetWidget,
+          onTap:() => showFilterSheetWidget(context),
           leading: const Text("已选: ",style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold)),
           title: Consumer<ProductDetailViewModel>(
             builder: (context,viewModel,child){
@@ -159,11 +158,11 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
   }
 
   //构建底部筛选条件组件
-  Widget buildFilterSheetWidget() {
+  Widget buildFilterSheetWidget(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.of(context).pop(),
       child: Container(
-        color: Colors.black12,
+        color: Colors.black38,
         alignment: Alignment.bottomCenter,
         child: Container(
           color: Colors.white,
@@ -225,7 +224,6 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
 
   //构建底部筛选条件-条件子(item)组件
   Widget buildFilterSheetItemWidget(FilterItemModel itemModel) {
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => widget.viewModel.changeFilterItemModelState(itemModel),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Category/models/product_detail_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../tools/share/const_config.dart';
@@ -100,7 +99,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       builder: (context,viewModel,child){
         return TabBarView(
           children: [
-            ProductDetailProductPage(model:viewModel.model),
+            ProductDetailProductPage(viewModel:viewModel),
             ProductDetailDetailPage(model: viewModel.model),
             ProductDetailEvaluationPage(model:viewModel.model)
           ],

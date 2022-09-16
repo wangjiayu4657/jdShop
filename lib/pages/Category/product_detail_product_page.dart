@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../tools/widgets/shopping_button.dart';
 import '../../pages/Category/models/product_detail_model.dart';
+import '../../pages/Category/view_models/product_detail_view_model.dart';
 
 
 //商品详情 - 商品
 class ProductDetailProductPage extends StatefulWidget {
-  const ProductDetailProductPage({Key? key, this.model}) : super(key: key);
+  const ProductDetailProductPage({Key? key, required this.viewModel}) : super(key: key);
 
-  final ProductDetailModel? model;
+  // final ProductDetailModel? model;
+  final ProductDetailViewModel viewModel;
 
   @override
   State<ProductDetailProductPage> createState() => _ProductDetailProductPageState();
@@ -47,7 +50,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: PlaceholderImage(
-        url: widget.model?.imgUrl,
+        url: widget.viewModel.model?.imgUrl,
         fit: BoxFit.contain
       ),
     );
@@ -60,9 +63,9 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.model?.title ?? "", style: Theme.of(context).textTheme.headline2),
+          Text(widget.viewModel.model?.title ?? "", style: Theme.of(context).textTheme.headline2),
           SizedBox(height: 10.px),
-          Text(widget.model?.subTitle ?? "", style: TextStyle(fontSize: 12.px,color: Colors.black45)),
+          Text(widget.viewModel.model?.subTitle ?? "", style: TextStyle(fontSize: 12.px,color: Colors.black45)),
         ],
       ),
     );
@@ -88,7 +91,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return Row(
       children: [
         const Text("特价: "),
-        Text("¥${widget.model?.price ?? ""}",style: Theme.of(context).textTheme.headline2?.copyWith(color: Colors.redAccent))
+        Text("¥${widget.viewModel.model?.price ?? ""}",style: Theme.of(context).textTheme.headline2?.copyWith(color: Colors.redAccent))
       ],
     );
   }
@@ -98,7 +101,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return Row(
       children: [
         const Text("原价: "),
-        Text("¥${widget.model?.oldPrice ?? ""}",style: Theme.of(context).textTheme.headline2?.copyWith(
+        Text("¥${widget.viewModel.model?.oldPrice ?? ""}",style: Theme.of(context).textTheme.headline2?.copyWith(
           decoration: TextDecoration.lineThrough
         ))
       ],
@@ -111,22 +114,46 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        buildOtherListItemWidget("已选 : ", "115，黑色，XL，1件"),
-        buildOtherListItemWidget("运费 : ", "免运费"),
+        buildSelectedItemWidget(),
+        buildFreightItemWidget(),
       ],
     );
   }
 
-  //构建其他条目子组件
-  Widget buildOtherListItemWidget(String title,String text) {
+  //构建展示已筛选条件组件
+  Widget buildSelectedItemWidget() {
     return Column(
       children: [
         ListTile(
           onTap: showFilterSheetWidget,
-          leading: Text(title,style: const TextStyle(color: Colors.black54,fontWeight: FontWeight.bold)),
-          title: Text(text,style: const TextStyle(color: Colors.black54,fontWeight: FontWeight.normal),),
+          leading: const Text("已选: ",style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold)),
+          title: Consumer<ProductDetailViewModel>(
+            builder: (context,viewModel,child){
+              return Text(
+                viewModel.filterItem,
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.normal
+                )
+              );
+            },
+          ),
         ),
         const Divider(height: 1)
+      ],
+    );
+  }
+
+  //构建运费组件
+  Widget buildFreightItemWidget() {
+    return Column(
+      children: const [
+        ListTile(
+          // onTap: showFilterSheetWidget,
+          leading: Text("运费: ",style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold)),
+          title: Text("免运费",style: TextStyle(color: Colors.black54,fontWeight: FontWeight.normal),),
+        ),
+        Divider(height: 1)
       ],
     );
   }
@@ -134,9 +161,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
   //构建底部筛选条件组件
   Widget buildFilterSheetWidget() {
     return InkWell(
-      onTap: (){
-        Navigator.of(context).pop();
-      },
+      onTap: () => Navigator.of(context).pop(),
       child: Container(
         color: Colors.black12,
         alignment: Alignment.bottomCenter,
@@ -146,15 +171,9 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    buildFilterSheetColorWidget(),
-                    buildFilterSheetSizeWidget(),
-                    SizedBox(height: 100.px),
-                    buildFilterSheetButtonWidget()
-                  ],
-                ),
+                buildFilterSheetContentWidget(),
+                SizedBox(height: 50.px),
+                buildFilterSheetButtonWidget()
               ],
             ),
           ),
@@ -169,34 +188,32 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
       width: 80.px,
       padding: EdgeInsets.symmetric(vertical: 8.px),
       alignment: Alignment.center,
-      child: Text(title,style: Theme.of(context).textTheme.bodyText1),
+      child: Text(title,textAlign: TextAlign.start,style: Theme.of(context).textTheme.bodyText1),
     );
   }
 
-  //构建底部筛选条件-颜色组件
-  Widget buildFilterSheetColorWidget() {
-    const List<String> colors = ["红色","黄色","蓝色","绿色","粉色","灰色"];
-    return buildFilterSheetItemsWidget("颜色 : ",colors);
-  }
-
-  //构建底部筛选条件-尺寸组件
-  Widget buildFilterSheetSizeWidget() {
-    const List<String> sizes = ["ML","L","XL","XXL"];
-    return buildFilterSheetItemsWidget("尺寸 : ",sizes);
+  //构建底部筛选条件内容组件
+  Widget buildFilterSheetContentWidget() {
+    List<FilterModel> items = widget.viewModel.model?.filters ?? [];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: items.map((model) => buildFilterSheetItemsWidget(model.cate, model.items)).toList(),
+    );
   }
 
   //构建底部筛选条件-条件组件
-  Widget buildFilterSheetItemsWidget(String title,List<String> items) {
+  Widget buildFilterSheetItemsWidget(String? title,List<FilterItemModel>? itemModels) {
+    List<FilterItemModel>? items = itemModels ?? [];
     return Wrap(
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildFilterSheetTitleWidget(title),
+            buildFilterSheetTitleWidget(title ?? ""),
             Expanded(
               child: Wrap(
                 spacing: 10.px,
-                children: items.map((text) => buildFilterSheetItemWidget(text)).toList()
+                children: items.map((model) => buildFilterSheetItemWidget(model)).toList()
               ),
             )
           ],
@@ -207,19 +224,21 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
 
 
   //构建底部筛选条件-条件子(item)组件
-  Widget buildFilterSheetItemWidget(String text) {
+  Widget buildFilterSheetItemWidget(FilterItemModel itemModel) {
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: (){
-        debugPrint(text);
-        Navigator.pop(context);
-      },
-      child: Chip(
-        backgroundColor: ColorExtension.bgColor,
-        padding: EdgeInsets.symmetric(horizontal: 8.px),
-        visualDensity: VisualDensity(vertical: -1.px),
-        label: Text(text),
-        labelStyle: TextStyle(color: Colors.black54,fontSize: 12.px,fontWeight: FontWeight.normal),
+      onTap: () => widget.viewModel.changeFilterItemModelState(itemModel),
+      child: Consumer<ProductDetailViewModel>(
+        builder: (context,viewModel,child){
+          return Chip(
+            backgroundColor: itemModel.bgColor,
+            padding: EdgeInsets.symmetric(horizontal: 8.px),
+            visualDensity: VisualDensity(vertical: -1.px),
+            label: Text(itemModel.item ?? ""),
+            labelStyle: TextStyle(color: itemModel.textColor,fontSize: 12.px,fontWeight: FontWeight.normal),
+          );
+        },
       ),
     );
   }

@@ -4,7 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:jdShop/tools/Http/http_config.dart';
+import 'package:flutter/material.dart';
+import '../../../tools/Http/http_config.dart';
+import '../../../tools/extension/color_extension.dart';
 
 ProductDetailModel productDetailModelFromJson(String str) => ProductDetailModel.fromJson(json.decode(str));
 
@@ -45,6 +47,7 @@ class ProductDetailModel {
   String? subTitle;
   int? salecount;
 
+  List<FilterModel> get filters => attr ?? [];
   String get imgUrl => HttpConfig.baseUrl + (pic ?? "");
 
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) => ProductDetailModel(
@@ -89,18 +92,42 @@ class FilterModel {
   FilterModel({
     this.cate,
     this.list,
+    this.items
   });
 
   String? cate;
   List<String>? list;
 
+  //添加额外字段
+  List<FilterItemModel>? items = [];
+
   factory FilterModel.fromJson(Map<String, dynamic> json) => FilterModel(
     cate: json["cate"],
     list: List<String>.from(json["list"].map((x) => x)),
+    items: List<String>.from(json["list"]).map((e) => FilterItemModel(item: e)).toList()
   );
 
   Map<String, dynamic> toJson() => {
     "cate": cate,
     "list": List<dynamic>.from(list??[].map((x) => x)),
   };
+}
+
+class FilterItemModel extends ChangeNotifier {
+  FilterItemModel({
+    this.item,
+  });
+
+  String? item;
+
+  bool _isSelected = false;
+  Color? get textColor => isSelected ? Colors.white : Colors.black54;
+  Color? get bgColor => isSelected ? Colors.redAccent :  ColorExtension.bgColor;
+
+  bool get isSelected => _isSelected;
+
+  set isSelected(bool value) {
+    _isSelected = value;
+    notifyListeners();
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Other/search_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../tools/share/const_config.dart';
@@ -36,6 +37,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   //选中下拉菜单
   void menuItemSelected(int index){
     debugPrint("index === $index");
+    if(index == 1){
+      Future(() => Navigator.pushNamed(context, SearchPage.routeName));
+    }
   }
 
   @override

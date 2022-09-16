@@ -162,7 +162,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     return InkWell(
       onTap: () => Navigator.of(context).pop(),
       child: Container(
-        color: Colors.black38,
+        color: Colors.black26,
         alignment: Alignment.bottomCenter,
         child: Container(
           color: Colors.white,

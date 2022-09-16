@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Category/models/product_detail_model.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../pages/Category/models/product_detail_model.dart';
 
 //商品详情 - 详情
 class ProductDetailDetailPage extends StatefulWidget {
@@ -12,11 +14,12 @@ class ProductDetailDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailDetailPageState extends State<ProductDetailDetailPage> {
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.orange,
-      child: const Center(child: Text("详情"),),
+    return const WebView(
+      backgroundColor: Colors.green,
+      initialUrl: "https://www.baidu.com",
     );
   }
 }

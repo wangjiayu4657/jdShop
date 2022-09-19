@@ -131,6 +131,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     });
   }
 
+  //底部工具控件
   Widget bottomToolWidget() {
     return Container(
       height: 80.px,

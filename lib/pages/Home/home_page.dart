@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Category/product_detail_page.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 
+import '../../pages/Category/product_detail_page.dart';
 import '../CustomWidgets/placeholder_image.dart';
 import '../../tools/widgets/search_bar.dart';
 import '../../tools/share/const_config.dart';
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   //热门推荐item
   Widget buildProductItem(ProductItemModel productItem) {
-    double itemWidth = (width - 30.px) / 2;
+    double itemWidth = (width - 32.px) / 2;
     return InkWell(
       onTap: () => Navigator.pushNamed(context, ProductDetailPage.routeName,arguments: productItem.id),
       child: Container(

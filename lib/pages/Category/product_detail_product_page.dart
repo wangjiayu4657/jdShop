@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,31 +8,60 @@ import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../tools/widgets/shopping_button.dart';
 import '../../pages/Category/models/product_detail_model.dart';
 import '../../pages/Category/view_models/product_detail_view_model.dart';
+import '../../tools/event_bus/cart_event_bus.dart';
+import '../../pages/Cart/widgets/stepper.dart' as step;
+import '../Cart/view_models/cart_services.dart';
 
 
 //商品详情 - 商品
 class ProductDetailProductPage extends StatefulWidget {
   const ProductDetailProductPage({Key? key, required this.viewModel}) : super(key: key);
 
-  // final ProductDetailModel? model;
   final ProductDetailViewModel viewModel;
 
   @override
   State<ProductDetailProductPage> createState() => _ProductDetailProductPageState();
 }
 
-class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
+class _ProductDetailProductPageState extends State<ProductDetailProductPage> with AutomaticKeepAliveClientMixin {
+
+  late StreamSubscription _sheetSubscription;  //event_bus
 
   //展示底部条件筛选组件
-  void showFilterSheetWidget(BuildContext context) {
+  void showFilterSheetWidget() {
     showBottomSheet(
       context: context,
-      builder: (context) => buildFilterSheetWidget(context)
+      builder: (ctx) => buildFilterSheetWidget()
     );
+  }
+
+  //获取加入购物车时的数量
+  void valueChange(int count){
+    debugPrint("count == $count");
+    widget.viewModel.model?.count = count;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _sheetSubscription = eventBus.on<CartEventBus>().listen((event) {
+      showFilterSheetWidget();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _sheetSubscription.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       padding: EdgeInsets.all(8.px),
       child: Column(
@@ -38,7 +69,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
           buildProductPictureWidget(),
           buildProductDescWidget(),
           buildProductPriceWidget(),
-          buildOtherListWidget(context),
+          buildOtherListWidget(),
         ],
       ),
     );
@@ -108,23 +139,23 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
   }
 
   //构建其他条目组件
-  Widget buildOtherListWidget(BuildContext context) {
+  Widget buildOtherListWidget() {
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        buildSelectedItemWidget(context),
+        buildSelectedItemWidget(),
         buildFreightItemWidget(),
       ],
     );
   }
 
   //构建展示已筛选条件组件
-  Widget buildSelectedItemWidget(BuildContext context) {
+  Widget buildSelectedItemWidget() {
     return Column(
       children: [
         ListTile(
-          onTap:() => showFilterSheetWidget(context),
+          onTap:() => showFilterSheetWidget(),
           leading: const Text("已选: ",style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold)),
           title: Consumer<ProductDetailViewModel>(
             builder: (context,viewModel,child){
@@ -158,7 +189,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
   }
 
   //构建底部筛选条件组件
-  Widget buildFilterSheetWidget(BuildContext context) {
+  Widget buildFilterSheetWidget() {
     return InkWell(
       onTap: () => Navigator.of(context).pop(),
       child: Container(
@@ -171,6 +202,7 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
             child: Column(
               children: [
                 buildFilterSheetContentWidget(),
+                buildStepperWidget(),
                 SizedBox(height: 50.px),
                 buildFilterSheetButtonWidget()
               ],
@@ -221,7 +253,6 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     );
   }
 
-
   //构建底部筛选条件-条件子(item)组件
   Widget buildFilterSheetItemWidget(FilterItemModel itemModel) {
     return GestureDetector(
@@ -241,11 +272,24 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
     );
   }
 
+  Widget buildStepperWidget() {
+    return Container(
+      height: 50.px,
+      padding: EdgeInsets.only(left: 25.px),
+      child: Row(
+        children: [
+          Text("数量",textAlign: TextAlign.start,style: Theme.of(context).textTheme.bodyText1),
+          SizedBox(width: 15.px),
+          step.Stepper(callBack: (count) => valueChange(count)),
+        ],
+      ),
+    );
+  }
+
   //构建底部筛选条件-按钮组件
   Widget buildFilterSheetButtonWidget() {
     return Container(
       padding: EdgeInsets.all(10.px),
-      // color: Colors.green,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -255,6 +299,9 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
               backgroundColor: Colors.redAccent,
               onPressed: (){
                 debugPrint("加入购物车");
+                debugPrint(widget.viewModel.filterItem);
+                CartServices.addProduct(widget.viewModel.model);
+                Navigator.pop(context);
               }
             ),
           ),
@@ -264,6 +311,8 @@ class _ProductDetailProductPageState extends State<ProductDetailProductPage> {
               backgroundColor: Colors.orange,
               onPressed: (){
                 debugPrint("立即购买");
+                debugPrint(widget.viewModel.filterItem);
+                Navigator.pop(context);
               }
             ),
           )

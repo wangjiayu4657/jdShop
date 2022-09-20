@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Other/search_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../pages/Other/search_page.dart';
 import '../../tools/share/const_config.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
@@ -10,6 +12,7 @@ import '../../pages/Category/product_detail_product_page.dart';
 import '../../pages/Category/product_detail_evaluation_page.dart';
 import '../../tools/widgets/shopping_button.dart';
 import '../../pages/Category/view_models/product_detail_view_model.dart';
+import '../../tools/event_bus/cart_event_bus.dart';
 
 class ProductDetailPage extends StatefulWidget {
   static const String routeName = "/productDetail";
@@ -46,6 +49,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   void initState() {
     super.initState();
     _viewModel.detailDataRequest();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -149,6 +157,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               backgroundColor: Colors.redAccent,
               onPressed: (){
                 debugPrint("加入购物车");
+                eventBus.fire(CartEventBus(text: "加入购物车"));
               }
             )
           ),
@@ -158,6 +167,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               backgroundColor: Colors.orange,
               onPressed: (){
                 debugPrint("立即购买");
+                eventBus.fire(CartEventBus(text: "立即购买"));
               }
             )
           )

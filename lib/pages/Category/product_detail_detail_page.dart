@@ -13,10 +13,14 @@ class ProductDetailDetailPage extends StatefulWidget {
   State<ProductDetailDetailPage> createState() => _ProductDetailDetailPageState();
 }
 
-class _ProductDetailDetailPageState extends State<ProductDetailDetailPage> {
+class _ProductDetailDetailPageState extends State<ProductDetailDetailPage> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return const WebView(
       backgroundColor: Colors.green,
       initialUrl: "https://www.baidu.com",

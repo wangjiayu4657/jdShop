@@ -128,6 +128,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建顶部tab组件
   Widget buildTopTabViewWidget() {
     return Container(
       width: width,
@@ -167,8 +168,8 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表组件
   Widget buildListViewWidget() {
-    print("_controller.isRefresh ==> ${_controller.isRefresh}");
     return Container(
       width: width,
       height: height - 68.px,
@@ -192,6 +193,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表item组件
   Widget buildListItemWidget(CategoryProductItemModel model) {
     return Container(
       height: 140.px,
@@ -215,6 +217,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表item 内容组件
   Widget buildListItemContentWidget(CategoryProductItemModel model) {
     return SizedBox(
       height: 120.px,
@@ -229,6 +232,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表item 内容 顶部组件内
   Widget buildItemContentTopWidget(String? text) {
     return Container(
       alignment: Alignment.centerLeft,
@@ -236,6 +240,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表item 内容 中部组件内
   Widget buildItemContentMiddleWidget() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -255,6 +260,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表item 内容 底部组件内
   Widget buildItemContentBottomWidget(dynamic price) {
     return Container(
       padding: EdgeInsets.only(top: 5.px),
@@ -266,6 +272,7 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     );
   }
 
+  //构建列表底部组件
   Widget buildCustomListFooterWidget() {
     return CustomFooter(
      builder: (context,status){

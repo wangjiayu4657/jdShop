@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/tools/extension/double_extension.dart';
 
 import '../../../tools/extension/int_extension.dart';
+import '../../../tools/extension/double_extension.dart';
 import '../../../tools/extension/color_extension.dart';
 import '../../../tools/extension/string_extension.dart';
 
 class Stepper extends StatefulWidget {
-  const Stepper({Key? key}) : super(key: key);
+  final ValueChanged? callBack;
+  const Stepper({Key? key, this.callBack}) : super(key: key);
 
   @override
   State<Stepper> createState() => _StepperState();
@@ -27,10 +28,14 @@ class _StepperState extends State<Stepper> {
 
   //点击`-`安妞
   void minusButtonClick() {
+    if(_count < 1) return;
     setState(() {
       _count -= 1;
-      _count = _count < 0 ? 0 : _count;
       _controller.text = "$_count";
+      if(widget.callBack != null){
+        widget.callBack!(_count);
+      }
+
       hideKeyBoard();
     });
   }
@@ -40,6 +45,10 @@ class _StepperState extends State<Stepper> {
     setState(() {
       _count += 1;
       _controller.text = "$_count";
+      if(widget.callBack != null){
+        widget.callBack!(_count);
+      }
+
       hideKeyBoard();
     });
   }
@@ -63,6 +72,7 @@ class _StepperState extends State<Stepper> {
     );
   }
 
+  //构建步进按钮
   Widget buildStepButton(String title,VoidCallback? onPressed) {
     return InkWell(
       onTap: onPressed,
@@ -77,6 +87,7 @@ class _StepperState extends State<Stepper> {
     );
   }
 
+  //构建步进输入及数量显示组件
   Widget buildStepInputWidget() {
     return Container(
       width: _textWidth > 40.px ? _textWidth.px : 40.px,
@@ -91,17 +102,21 @@ class _StepperState extends State<Stepper> {
         )
       ),
       child: TextField(
+        maxLength: 8,
         controller: _controller,
         keyboardType: const TextInputType.numberWithOptions(),
         textAlign: TextAlign.center,
         onChanged: (val){
-          // val = val.length > 8 ? val.substring(0,8) : val;
           setState(() {
             _count = int.parse(val);
             _textWidth = val.calculateWidth(context: context).px + 16.px;
+            if(widget.callBack != null){
+              widget.callBack!("$_count");
+            }
           });
         },
         decoration: const InputDecoration(
+          counterText: "",
           border: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
           focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
           disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),

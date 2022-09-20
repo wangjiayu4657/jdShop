@@ -42,6 +42,7 @@ class ProductDetailViewModel extends ChangeNotifier {
 
     if(itemModel?.isSelected ?? false){
       _filterItems.add(itemModel?.item ?? "");
+      model?.filter = filterItem;
     }
   }
 

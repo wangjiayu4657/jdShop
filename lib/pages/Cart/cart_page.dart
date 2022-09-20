@@ -96,12 +96,12 @@ class _CartPageState extends State<CartPage> {
   //购物车商品列表 - item - 内容 - 价格
   Widget buildListViewItemContentPriceWidget() { 
     return Padding(
-      padding: EdgeInsets.fromLTRB(4.px, 15.px, 4.px, 2.px),
+      padding: EdgeInsets.fromLTRB(0, 15.px, 4.px, 2.px),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          Text("￥23"),
-          step.Stepper()
+        children: [
+          Text("￥9999",style: TextStyle(color: Colors.redAccent,fontSize: 18.px)),
+          const step.Stepper()
         ],
       ),
     );

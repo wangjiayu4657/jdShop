@@ -29,6 +29,8 @@ class ProductDetailModel {
     this.attr,
     this.subTitle,
     this.salecount,
+    this.count,
+    this.filter
   });
 
   String? id;
@@ -46,6 +48,10 @@ class ProductDetailModel {
   List<FilterModel>? attr;
   String? subTitle;
   int? salecount;
+
+  //添加额外字段
+  int? count;
+  String? filter;
 
   List<FilterModel> get filters => attr ?? [];
   String get imgUrl => HttpConfig.baseUrl + (pic ?? "");
@@ -66,6 +72,8 @@ class ProductDetailModel {
     attr: List<FilterModel>.from(json["attr"].map((x) => FilterModel.fromJson(x))),
     subTitle: json["sub_title"],
     salecount: json["salecount"],
+    count: 1,
+    filter: ""
   );
 
   Map<String, dynamic> toJson() => {

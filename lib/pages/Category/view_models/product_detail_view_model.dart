@@ -40,10 +40,11 @@ class ProductDetailViewModel extends ChangeNotifier {
   void _saveSelectedFilterItem(FilterItemModel? itemModel) {
     _filterItems.retainWhere((element) => element != itemModel?.item);
 
-    if(itemModel?.isSelected ?? false){
+    if(itemModel?.isSelected == true){
       _filterItems.add(itemModel?.item ?? "");
-      model?.filter = filterItem;
     }
+
+    model?.filter = filterItem;
   }
 
   //初始化默认选中的数据

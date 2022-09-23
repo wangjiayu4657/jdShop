@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/CustomWidgets/placeholder_image.dart';
+import 'package:jdShop/pages/Login/pages/login_page.dart';
+import 'package:jdShop/tools/extension/color_extension.dart';
 import 'package:jdShop/tools/extension/int_extension.dart';
-import 'package:jdShop/tools/widgets/after_layout.dart';
 
-import '../../tools/extension/color_extension.dart';
-import '../../tools/share/const_config.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = "/profile";
@@ -14,118 +14,81 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final List<String> _hotItems = ["超级秒杀","办公用品","儿童小汽车","超级秒杀","办公用品","儿童小汽车","唇彩唇蜜","装修专用耗材","地板","超级秒杀","办公用品","儿童小汽车","唇彩唇蜜","装修专用耗材","地板"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("我的")),
-      body: buildTestStackWidget(),
+      body: Container(
+        color: ColorExtension.bgColor,
+        child: CustomScrollView(
+          slivers: [
+            buildAppBarSliver(),
+            buildListViewSliver(),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget buildTestStackWidget() {
-    return Stack(
-      children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 200.px,
-          child: Container(
-            color: Colors.red,
-          ),
-        ),
-        AfterLayout(callback: (ral){
-          print("size == ${ral.size}, offset === ${ral.offset}");
-        },
-          child: Positioned(
-            top: 0,
-            height: 10.px,
-            child: Container(color: Colors.blue),
-          ),
-        ),
-        Positioned(
-          top: 80.px,
-          left: 0,
-          right: 0,
-          height: 200.px,
-          child: Container(
-            color: Colors.green,
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          // height: 200.px,
-          child: Container(
-            height: 300.px,
-            color: Colors.blue,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildTestContainerWidget() {
-    return Container(
-      width: width,
-      height: 88.px,
-      color: Colors.red,
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(bottom: 15.px),
-      child: InkWell(
-        onTap: (){},
-        child: Container(
-          width: width - 40.px,
-          height: 48.px,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            border: Border.all(color: ColorExtension.lineColor),
-            borderRadius: BorderRadius.circular(4.px),
-          ),
-          // alignment: Alignment.center,
+  //构建tabBar组件
+  Widget buildAppBarSliver() {
+    return SliverAppBar(
+      pinned: true,
+      centerTitle: false,
+      expandedHeight: 88.px,
+      flexibleSpace: FlexibleSpaceBar(
+        title: Padding(
+          padding: EdgeInsets.only(left: 12.px),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(Icons.delete),
-              Text("清空历史记录")
+            children: [
+              const CircleAvatar(
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage("assets/images/user.png"),
+              ),
+              SizedBox(width: 8.px),
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, LoginPage.routeName),
+                child: Text("登录/注册",style: TextStyle(fontSize: 12.px))
+              ),
             ],
           ),
         ),
+        background: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Image.asset("assets/images/user_bg.jpg", fit: BoxFit.cover),
+        ),
       ),
     );
   }
 
-  Widget buildTestWidget() {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: 250.px,
-      ),
-      child: Container(
-        color: Colors.white,
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 10.px),
-                ),
-                Wrap(
-                    alignment: WrapAlignment.start,
-                    runAlignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    runSpacing: 10.px,
-                    spacing: 7.px,
-                    children: List.generate(_hotItems.length,(index) => Text(_hotItems[index]))
-                ),
-              ],
-            ),
-          ],
-        ),
+  Widget buildListViewSliver() {
+    return SliverList(
+       delegate: SliverChildBuilderDelegate(
+          (context,idx) {
+            return idx == 3 ? Container(color: ColorExtension.bgColor,height: 8.px) :  buildListItemView(idx);
+          },
+          childCount: 6
+       )
+    );
+  }
+
+  //
+  Widget buildListItemView(int idx) {
+    List<String> titles = ["全部订单","待付款","待收货","","我的收藏","在线客服"];
+    List<IconData?> icons = [Icons.receipt,Icons.payment_sharp,Icons.car_crash_sharp,null,Icons.favorite,Icons.people];
+    List<Color?> colors = [Colors.redAccent,Colors.green,Colors.orangeAccent,null,Colors.redAccent,Colors.black87];
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(titles[idx],style: TextStyle(fontSize: 14.px,)),
+            leading: Icon(icons[idx],color: colors[idx]),
+            minLeadingWidth: 10,
+            visualDensity: VisualDensity(vertical: -2.px,horizontal: -2.px),
+          ),
+          const Divider(height: 1)
+        ],
       ),
     );
   }

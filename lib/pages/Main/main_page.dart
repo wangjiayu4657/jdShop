@@ -10,7 +10,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage>  {
-  int _currentIdx = 0;
+  int _currentIdx = 3;
   late PageController controller = PageController(initialPage: _currentIdx);
 
   @override

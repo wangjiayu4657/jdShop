@@ -245,18 +245,24 @@ class _CategoryProductPageState extends State<CategoryProductPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Chip(
-          label: const Text("4g", style: TextStyle(fontSize: 12,color: Colors.black54)),
-          backgroundColor: ColorExtension.lineColor,
-          padding: EdgeInsets.all(5.px)
-        ),
+        buildTagItemWidget("12g"),
         SizedBox(width: 15.px),
-        Chip(
-          label: const Text("126g", style: TextStyle(fontSize: 12,color: Colors.black54)),
-          backgroundColor: ColorExtension.lineColor,
-          padding: EdgeInsets.all(5.px)
-        ),
+        buildTagItemWidget("126g")
       ],
+    );
+  }
+
+  Widget buildTagItemWidget(String text) {
+    return Chip(
+      label: Text(text,
+        style: const TextStyle(
+          fontSize: 12,
+          color: Colors.black54,
+          fontWeight: FontWeight.normal
+        )
+      ),
+      backgroundColor: ColorExtension.lineColor,
+      visualDensity: VisualDensity(horizontal: 2.px,vertical: -4),
     );
   }
 

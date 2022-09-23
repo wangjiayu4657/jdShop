@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 import '../../tools/extension/object_extension.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';

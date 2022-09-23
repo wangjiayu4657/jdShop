@@ -51,18 +51,18 @@ class ThemeConfig {
   static TextButtonThemeData buttonTheme = TextButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith((states){
-        return states.contains(MaterialState.pressed) ? Colors.green : Colors.transparent;
+        return states.contains(MaterialState.pressed) ? Colors.black12 : Colors.transparent;
       }),
-      textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 15.px,fontWeight: FontWeight.w600,color: Colors.green))
+      textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 15.px))
     )
   );
 
   static ElevatedButtonThemeData elevatedButtonThemeData = ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith((states){
-        return states.contains(MaterialState.pressed) ? Colors.orange : Colors.pink;
+        return states.contains(MaterialState.pressed) ? Colors.black12 : Colors.transparent;
       }),
-      textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 15.px,fontWeight: FontWeight.normal,color: Colors.green))
+      textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 15.px))
     )
   );
 }

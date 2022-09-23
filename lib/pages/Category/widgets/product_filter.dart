@@ -139,7 +139,7 @@ class _ProductFilterState extends State<ProductFilter> {
                 onPressed: (){
                   debugPrint("加入购物车");
                   debugPrint(widget.model?.filter);
-                  CartServices.addProduct(widget.model);
+                  CartServices.addProductToCart(widget.model);
                   Navigator.pop(context);
                 }
             ),

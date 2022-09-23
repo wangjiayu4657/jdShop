@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Cart/cart_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../pages/Other/search_page.dart';
@@ -179,7 +180,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   //购物车
   Widget shoppingCartWidget() {
     return InkWell(
-      onTap: () => debugPrint("加入购物车"),
+      onTap: () => Navigator.pushNamed(context, CartPage.routeName),
       child: Container(
         width: 80.px,
         padding: EdgeInsets.symmetric(vertical: 10.px,horizontal: 10.px),

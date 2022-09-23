@@ -6,8 +6,14 @@ import '../../../tools/extension/color_extension.dart';
 import '../../../tools/extension/string_extension.dart';
 
 class Stepper extends StatefulWidget {
-  final ValueChanged? callBack;
-  const Stepper({Key? key, this.callBack}) : super(key: key);
+  const Stepper({
+    Key? key,
+    this.value,
+    this.callBack
+  }) : super(key: key);
+
+  final int? value;
+  final ValueChanged<int>? callBack;
 
   @override
   State<Stepper> createState() => _StepperState();
@@ -51,6 +57,13 @@ class _StepperState extends State<Stepper> {
 
       hideKeyBoard();
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _count = widget.value ?? 1;
+    _controller.text = "${widget.value}";
   }
 
   @override
@@ -111,7 +124,7 @@ class _StepperState extends State<Stepper> {
             _count = int.parse(val);
             _textWidth = val.calculateWidth(context: context).px + 16.px;
             if(widget.callBack != null){
-              widget.callBack!("$_count");
+              widget.callBack!(_count);
             }
           });
         },

@@ -1,24 +1,60 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
+import '../../../tools/storage/storage.dart';
+import '../../../tools/extension/object_extension.dart';
+import '../../../pages/Cart/view_models/cart_services.dart';
 import '../../../pages/Category/models/product_detail_model.dart';
 
-class CartViewModel {
-  void addProduct(ProductDetailModel model) {
-    var param = productDetailModelToJson(model);
-    print("param === $param");
+
+class CartViewModel extends ChangeNotifier {
+  late String totalPrice = "0.0";
+  late List<ProductDetailModel> products = [];
+  late bool isAllChecked = false;
+
+  CartViewModel(){
+    cartProductDataFromStorage();
   }
 
-  String categoryModelToJson(ProductDetailModel data) => json.encode(data.toJson());
+  //获取购物车数据
+  void cartProductDataFromStorage() async {
+    if(CartServices.products.isNotEmpty) {
+      products = CartServices.products;
+    } else {
+      List<String>? carts = await Storage.fetchList(CartServices.kCartsKey);
+      List<Map<String, dynamic>>? tempCarts = carts.map((e) => json.decode(e) as Map<String,dynamic>).toList();
+      products = tempCarts.map((e) => ProductDetailModel.fromJson(e)).toList();
+    }
 
-  Map<String,dynamic> productDetailModelToJson(ProductDetailModel model) {
-    final Map<String,dynamic> map = <String, dynamic>{};
-    map['_id'] = model.id;
-    map['title'] = model.title;
-    map['price'] = model.price;
-    map['filter'] = model.filter;
-    map['count'] = model.count;
-    map['pic'] = model.pic;
-    map['checked'] = true;
-    return map;
+    notifyListeners();
+  }
+
+  //改变商品数量
+  void changeProductCount(int count,ProductDetailModel model) {
+    model.count = count;
+    calculatorTotalPrice();
+    notifyListeners();
+  }
+
+  //单选
+  void selectedProduct(){
+    isAllChecked = products.where((element) => !element.isChecked).isEmpty;
+    calculatorTotalPrice();
+    notifyListeners();
+  }
+
+  //全选
+  void allSelected(bool isChecked) {
+    products.forEach((element) => element.isChecked = isChecked);
+    calculatorTotalPrice();
+    notifyListeners();
+  }
+
+  //计算选中商品的总价
+  void calculatorTotalPrice() {
+    double total = 0.0;
+    total = products.where((element) => element.isChecked)
+           .fold<double>(0, (previousValue, element) => previousValue + mapToDouble(element.price) * element.count);
+    totalPrice = "$total";
   }
 }

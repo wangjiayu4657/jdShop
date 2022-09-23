@@ -29,9 +29,12 @@ class ProductDetailModel {
     this.attr,
     this.subTitle,
     this.salecount,
-    this.count,
-    this.filter
-  });
+    int? count,
+    String? filter,
+    bool? isChecked
+  }) : count = count ?? 1,
+       filter = filter ?? "",
+       isChecked = isChecked ?? false;
 
   String? id;
   String? title;
@@ -50,8 +53,9 @@ class ProductDetailModel {
   int? salecount;
 
   //添加额外字段
-  int? count;
-  String? filter;
+  late int count = 1;
+  late String filter = "";
+  late bool isChecked = false;
 
   List<FilterModel> get filters => attr ?? [];
   String get imgUrl => HttpConfig.baseUrl + (pic ?? "");
@@ -72,8 +76,9 @@ class ProductDetailModel {
     attr: List<FilterModel>.from(json["attr"].map((x) => FilterModel.fromJson(x))),
     subTitle: json["sub_title"],
     salecount: json["salecount"],
-    count: 1,
-    filter: ""
+    count:json["count"],
+    filter: json["filter"],
+    isChecked: json["isChecked"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -92,6 +97,9 @@ class ProductDetailModel {
     "attr": List<dynamic>.from(attr??[].map((x) => x.toJson())),
     "sub_title": subTitle,
     "salecount": salecount,
+    "count": count,
+    "filter": filter,
+    "isChecked": isChecked
   };
 }
 

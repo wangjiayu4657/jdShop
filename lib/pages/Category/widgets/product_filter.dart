@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../tools/extension/object_extension.dart';
 import '../../../tools/extension/int_extension.dart';
 import '../../../pages/Cart/widgets/stepper.dart' as step;
 import '../../../tools/widgets/shopping_button.dart';
@@ -137,9 +138,8 @@ class _ProductFilterState extends State<ProductFilter> {
                 title: "加入购物车",
                 backgroundColor: Colors.redAccent,
                 onPressed: (){
-                  debugPrint("加入购物车");
-                  debugPrint(widget.model?.filter);
                   CartServices.addProductToCart(widget.model);
+                  showToast("加入购物车成功");
                   Navigator.pop(context);
                 }
             ),

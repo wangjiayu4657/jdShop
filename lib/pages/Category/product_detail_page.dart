@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Cart/cart_page.dart';
+import 'package:jdShop/tools/extension/object_extension.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../pages/Cart/cart_page.dart';
 import '../../pages/Other/search_page.dart';
 import '../../tools/share/const_config.dart';
 import '../../tools/extension/int_extension.dart';
@@ -157,7 +159,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               title: "加入购物车",
               backgroundColor: Colors.redAccent,
               onPressed: (){
-                debugPrint("加入购物车");
                 eventBus.fire(CartEventBus(text: "加入购物车"));
               }
             )
@@ -166,9 +167,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             child: ShoppingButton(
               title: "立即购买",
               backgroundColor: Colors.orange,
-              onPressed: (){
+              onPressed: () {
                 debugPrint("立即购买");
-                eventBus.fire(CartEventBus(text: "立即购买"));
+                // eventBus.fire(CartEventBus(text: "立即购买"));
+                showToast("立即购买");
               }
             )
           )

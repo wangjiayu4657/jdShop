@@ -1,8 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
+import '../../tools/extension/object_extension.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../pages/Category/models/product_detail_model.dart';
@@ -21,6 +21,17 @@ class _CartPageState extends State<CartPage> {
 
   late bool _isEditing = false;
   final CartViewModel _viewModel = CartViewModel();
+
+  //删除
+  void deleteProduct() {
+    _viewModel.deleteProduct();
+    showToast("删除成功");
+  }
+
+  //结算
+  void settlement() {
+    debugPrint("结算");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,9 +202,7 @@ class _CartPageState extends State<CartPage> {
   //购物车底部工具条 - 结算按钮
   Widget buildBottomToolSettlementButtonWidget() {
     return InkWell(
-      onTap: (){
-        debugPrint("结算");
-      },
+      onTap: _isEditing ? deleteProduct : settlement,
       child: Container(
         width: 96.px,
         height: 48.px,

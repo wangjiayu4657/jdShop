@@ -10,46 +10,42 @@ class CartServices {
 
   //加入购物车
   static void addProductToCart(ProductDetailModel? model) async {
-    // Storage.remove(kCartsKey);
     if(model == null) return;
 
-    List<String>? carts = await Storage.fetchList(kCartsKey);
+    List<String>? productList = await Storage.fetchList(kCartsKey);
 
     bool isContain = false;
-    for(int i = 0; i < carts.length; i++){
-       String jsonString = carts[i];
+    for(int i = 0; i < products.length; i++){
+       String jsonString = productList[i];
        Map<String,dynamic> map = json.decode(jsonString);
        int count = map["count"] ?? 0;
        if(map["_id"] == model.id && map["filter"] == model.filter) {
          isContain = true;
          map["count"] = count + model.count;
-         carts[i] = json.encode(map);
+         productList[i] = json.encode(map);
          break;
        }
     }
 
     if(!isContain) {
       String product = productDetailModelToJson(model);
-      carts.add(product);
+      productList.add(product);
     }
 
-    products = carts.map((e) => json.decode(e) as Map<String,dynamic>)
+    products = productList.map((e) => json.decode(e) as Map<String,dynamic>)
           .map((e) => ProductDetailModel.fromJson(e))
           .toList();
 
-    Storage.save<List<String>>(kCartsKey, carts);
-    print("carts ==== $carts");
+    saveProducts(productList);
   }
 
-  // static String productDetailModelToJson(ProductDetailModel model) {
-  //   final Map<String,dynamic> map = <String, dynamic>{};
-  //   map['id'] = model.id;
-  //   map['title'] = model.title;
-  //   map['price'] = model.price;
-  //   map['filter'] = model.filter;
-  //   map['count'] = model.count;
-  //   map['pic'] = model.pic;
-  //   map['checked'] = model.isChecked;
-  //   return json.encode(map);
-  // }
+  //保存购物车商品
+  static saveProducts(List<String> products) {
+    Storage.save<List<String>>(kCartsKey, products);
+  }
+
+  //清空购物车
+  static clearCart() {
+    Storage.remove(kCartsKey);
+  }
 }

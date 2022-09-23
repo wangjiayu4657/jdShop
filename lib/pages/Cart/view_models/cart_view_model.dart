@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+
 import '../../../tools/storage/storage.dart';
 import '../../../tools/extension/object_extension.dart';
 import '../../../pages/Cart/view_models/cart_services.dart';
@@ -48,6 +49,20 @@ class CartViewModel extends ChangeNotifier {
     products.forEach((element) => element.isChecked = isChecked);
     calculatorTotalPrice();
     notifyListeners();
+  }
+
+  //删除购物车商品
+  void deleteProduct() {
+    products.retainWhere((element) => !element.isChecked);
+    calculatorTotalPrice();
+    saveProducts();
+    notifyListeners();
+  }
+
+  //购买保存商品
+  void saveProducts() {
+    var productList = products.map((e) => productDetailModelToJson(e)).toList();
+    CartServices.saveProducts(productList);
   }
 
   //计算选中商品的总价

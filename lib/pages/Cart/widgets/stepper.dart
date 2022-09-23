@@ -63,7 +63,7 @@ class _StepperState extends State<Stepper> {
   void initState() {
     super.initState();
     _count = widget.value ?? 1;
-    _controller.text = "${widget.value}";
+    _controller.text = "$_count";
   }
 
   @override

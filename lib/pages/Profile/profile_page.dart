@@ -40,16 +40,15 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Padding(
           padding: EdgeInsets.only(left: 12.px),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const CircleAvatar(
                 backgroundColor: Colors.transparent,
                 backgroundImage: AssetImage("assets/images/user.png"),
               ),
               SizedBox(width: 8.px),
-              InkWell(
-                onTap: () => Navigator.pushNamed(context, LoginPage.routeName),
-                child: Text("登录/注册",style: TextStyle(fontSize: 12.px))
-              ),
+              // buildUserInfoWidget("13636639052"),
+              buildLoginWidget(),
             ],
           ),
         ),
@@ -61,18 +60,17 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  //构建列表组件
   Widget buildListViewSliver() {
     return SliverList(
        delegate: SliverChildBuilderDelegate(
-          (context,idx) {
-            return idx == 3 ? Container(color: ColorExtension.bgColor,height: 8.px) :  buildListItemView(idx);
-          },
+          (context,idx) => idx == 3 ? Container(color: ColorExtension.bgColor,height: 6.px) : buildListItemView(idx),
           childCount: 6
        )
     );
   }
 
-  //
+  //构建列表item组件
   Widget buildListItemView(int idx) {
     List<String> titles = ["全部订单","待付款","待收货","","我的收藏","在线客服"];
     List<IconData?> icons = [Icons.receipt,Icons.payment_sharp,Icons.car_crash_sharp,null,Icons.favorite,Icons.people];
@@ -88,6 +86,37 @@ class _ProfilePageState extends State<ProfilePage> {
             visualDensity: VisualDensity(vertical: -2.px,horizontal: -2.px),
           ),
           const Divider(height: 1)
+        ],
+      ),
+    );
+  }
+
+  //构建登录组件
+  Widget buildLoginWidget() {
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, LoginPage.routeName),
+      child: Text("登录/注册",style: TextStyle(fontSize: 12.px))
+    );
+  }
+
+  //构建用户信息组件
+  Widget buildUserInfoWidget(String userName) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(4.px, 8.px, 0, 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("用户名: $userName",style: TextStyle(fontSize: 12.px)),
+          SizedBox(height: 2.px),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.abc,color: Colors.white),
+              Text("普通会员",style: TextStyle(fontSize: 10.px))
+            ],
+          ),
         ],
       ),
     );

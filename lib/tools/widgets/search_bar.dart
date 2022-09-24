@@ -8,8 +8,8 @@ import '../../tools/extension/int_extension.dart';
 typedef SearchClick = void Function(String? text);
 const String kSearchKey = "kSearchKey";
 
+//搜索导航栏
 class SearchBar extends AppBar {
-
   SearchBar({
     Key? key,
     Widget? leading,
@@ -23,9 +23,8 @@ class SearchBar extends AppBar {
     VoidCallback? onTap,
     SearchClick? searchClick
   }) : assert(
-      (title == null && actions == null) ||
-      (title != null && actions != null),
-      'title 和 actions 必须同时提供或两者都不提供',
+        (title == null && actions == null) || (title != null && actions != null),
+        'title 和 actions 必须同时提供或两者都不提供'
       ),
       super(
         key: key,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../pages/Login/pages/register_page.dart';
 import '../../../tools/extension/int_extension.dart';
 import '../../../tools/widgets/shopping_button.dart';
 import '../../../tools/widgets/input.dart';
@@ -60,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
     return Input(
         placeholder: "用户名/手机号",
         leading: const Icon(Icons.person,color: Colors.black54),
+        borderType: BorderType.underlineBorder,
         isShowVerificationCode: true,
         valueCallBack: (text) {
           print("username == $text");
@@ -71,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     return Input(
       placeholder: "请输入密码",
       obscureText: true,
+      borderType: BorderType.underlineBorder,
       leading: const Icon(Icons.lock,color: Colors.black54),
       valueCallBack: (text) {
         print("password == $text");
@@ -97,14 +100,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  //构建登录组件
   Widget buildLoginButtonWidget() {
     return ShoppingButton(
       title: "登 录",
       height: 44.px,
       fontWeight: FontWeight.bold,
       backgroundColor: Colors.redAccent,
-      onPressed: (){},
+      onPressed: () => Navigator.pushNamed(context, RegisterPage.routeName),
     );
   }
-
 }

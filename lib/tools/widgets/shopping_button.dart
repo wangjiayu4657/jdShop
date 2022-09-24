@@ -28,7 +28,7 @@ class ShoppingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? 40.px,
+      width: width ?? double.infinity,
       height: height ?? 34.px,
       margin: EdgeInsets.symmetric(horizontal: 15.px),
       child: ElevatedButton(

@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Text("忘记密码",style: TextStyle(color: Colors.black54,fontSize: 14.px))
           ),
           TextButton(
-            onPressed: (){},
+            onPressed: () => Navigator.pushNamed(context, RegisterFirstPage.routeName),
             child: Text("新用户注册",style: TextStyle(color: Colors.black54,fontSize: 14.px))
           ),
         ],
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 44.px,
       fontWeight: FontWeight.bold,
       backgroundColor: Colors.redAccent,
-      onPressed: () => Navigator.pushNamed(context, RegisterFirstPage.routeName),
+      onPressed: () => debugPrint("登录"),
     );
   }
 }

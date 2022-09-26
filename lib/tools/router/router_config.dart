@@ -12,7 +12,6 @@ import '../../pages/Category/product_detail_page.dart';
 import '../../pages/Category/category_product_page.dart';
 import '../../pages/Login/pages/register_first_page.dart';
 import '../../pages/Login/pages/register_second_page.dart';
-import '../../pages/Login/pages/register_third_page.dart';
 
 class RouterConfig {
   static Map<String, WidgetBuilder> routes = {
@@ -25,7 +24,6 @@ class RouterConfig {
     LoginPage.routeName: (ctx) => const LoginPage(),
     RegisterFirstPage.routeName: (ctx) => const RegisterFirstPage(),
     RegisterSecondPage.routeName: (ctx) => const RegisterSecondPage(),
-    RegisterThirdPage.routeName: (ctx) => const RegisterThirdPage(),
     CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),
     ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments)
 

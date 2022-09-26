@@ -23,10 +23,9 @@ class RouterConfig {
     SearchPage.routeName: (ctx) => const SearchPage(),
     LoginPage.routeName: (ctx) => const LoginPage(),
     RegisterFirstPage.routeName: (ctx) => const RegisterFirstPage(),
-    RegisterSecondPage.routeName: (ctx) => const RegisterSecondPage(),
+    RegisterSecondPage.routeName: (ctx,{arguments}) => RegisterSecondPage(arguments: arguments),
     CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),
-    ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments)
-
+    ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments),
   };
 
   //统一处理

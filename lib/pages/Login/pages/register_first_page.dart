@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/tools/extension/object_extension.dart';
 
+import '../view_models/register_view_model.dart';
 import '../../../tools/widgets/input.dart';
 import '../../../tools/widgets/code_button.dart';
 import '../../../tools/extension/int_extension.dart';
@@ -17,6 +19,26 @@ class RegisterFirstPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterFirstPage> {
+
+  late String _tel = "";  //电话号码
+  late String _code = ""; //验证码
+  late final RegisterViewModel _viewModel = RegisterViewModel();
+
+  //跳转目标页
+  void gotoTargetPage() {
+    Map<String,dynamic> arguments = {"tel":_tel,"code":_code};
+    Navigator.pushNamed(context, RegisterSecondPage.routeName,arguments: arguments);
+  }
+
+  //发送验证码
+  void sendCodeRequest() {
+    if(_tel.isEmpty){
+      showToast("请先输入手机号码");
+    } else {
+      _viewModel.sendCodeRequest(_tel);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +58,7 @@ class _RegisterPageState extends State<RegisterFirstPage> {
           SizedBox(height: 12.px),
           buildCodeWidget(),
           SizedBox(height: 24.px),
-          NextButton(callback: () => Navigator.pushNamed(context, RegisterSecondPage.routeName))
+          NextButton(callback: gotoTargetPage)
         ],
       ),
     );
@@ -84,7 +106,7 @@ class _RegisterPageState extends State<RegisterFirstPage> {
       child: Input(
         placeholder: "请输入手机号",
         valueCallBack: (text){
-          print("text == $text");
+          setState(() => _tel = text);
         },
       ),
     );
@@ -124,6 +146,7 @@ class _RegisterPageState extends State<RegisterFirstPage> {
             flex: 3,
             child: Input(
               placeholder: "请输入验证码",
+              valueCallBack: (code) => _code = code,
               borderType: BorderType.outlineBorder,
               borderColor: ColorExtension.lineColor,
               contentPadding: EdgeInsets.only(left: 12.px),
@@ -136,7 +159,8 @@ class _RegisterPageState extends State<RegisterFirstPage> {
             child: CodeButton(
               second: 12,
               height: 40.px,
-              callback: (){},
+              isStartTime: _tel.isNotEmpty,
+              callback: sendCodeRequest
             ),
           )
         ],

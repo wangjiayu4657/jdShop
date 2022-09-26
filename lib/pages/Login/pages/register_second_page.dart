@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Login/pages/login_page.dart';
-import 'package:jdShop/pages/Main/main_page.dart';
 
 import '../widgets/next_button.dart';
 import '../../../tools/widgets/input.dart';
+import '../../../pages/Main/main_page.dart';
 import '../../../tools/extension/int_extension.dart';
+import '../../../pages/Login/view_models/register_view_model.dart';
 
 class RegisterSecondPage extends StatefulWidget {
   static const String routeName = "/register_second";
-  const RegisterSecondPage({Key? key}) : super(key: key);
+  const RegisterSecondPage({Key? key,this.arguments}) : super(key: key);
+
+  final Map<String,dynamic>? arguments;
 
   @override
   State<RegisterSecondPage> createState() => _RegisterSecondPageState();
@@ -16,8 +18,23 @@ class RegisterSecondPage extends StatefulWidget {
 
 class _RegisterSecondPageState extends State<RegisterSecondPage> {
 
+
   //密码是否可见
   bool _isVisible = true;
+  String _password = "";
+  late final RegisterViewModel _viewModel = RegisterViewModel();
+
+  void registerRequest() async {
+    Map<String,dynamic> params = {
+      "tel": widget.arguments?["tel"],
+      "code": widget.arguments?["code"],
+      "password": _password
+    };
+
+    print("params == $params");
+    _viewModel.registerAccountRequest(params);
+    Navigator.pushNamedAndRemoveUntil(context, MainPage.routeName, (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +68,7 @@ class _RegisterSecondPageState extends State<RegisterSecondPage> {
           placeholder: "请设置为6-20位字符",
           borderType: BorderType.outlineBorder,
           contentPadding: EdgeInsets.only(left: 15.px),
+          valueCallBack: (password) => _password = password,
         )
       ],
     );
@@ -83,8 +101,6 @@ class _RegisterSecondPageState extends State<RegisterSecondPage> {
   }
 
   Widget buildNextStepButton() {
-    return NextButton(title: "完  成",callback: (){
-      Navigator.pushNamedAndRemoveUntil(context, MainPage.routeName, (route) => false);
-    });
+    return NextButton(title: "完  成",callback:registerRequest);
   }
 }

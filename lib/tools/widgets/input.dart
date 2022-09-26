@@ -53,7 +53,7 @@ class Input extends StatefulWidget {
   ///键盘样式
   final TextInputType? keyboardType;
   ///文本输入时的回调
-  final ValueCallBack? valueCallBack;
+  final ValueCallBack<String>? valueCallBack;
   final EdgeInsets? contentPadding;
   ///获取验证码按钮点击回调
   final VoidCallback? callback;

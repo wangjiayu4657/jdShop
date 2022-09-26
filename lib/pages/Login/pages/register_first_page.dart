@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Login/pages/register_second_page.dart';
 
 import '../../../pages/Login/widgets/next_button.dart';
 import '../../../tools/extension/color_extension.dart';
@@ -6,15 +7,15 @@ import '../../../tools/extension/int_extension.dart';
 import '../../../tools/widgets/input.dart';
 
 
-class RegisterPage extends StatefulWidget {
-  static const String routeName = "/register";
-  const RegisterPage({Key? key}) : super(key: key);
+class RegisterFirstPage extends StatefulWidget {
+  static const String routeName = "/register_first";
+  const RegisterFirstPage({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterFirstPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterFirstPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,10 @@ class _RegisterPageState extends State<RegisterPage> {
       children: [
         buildFirstStepContentWidget(),
         SizedBox(height: 24.px),
-        NextButton(callback: (){})
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.px),
+          child: NextButton(callback: () => Navigator.pushNamed(context, RegisterSecondPage.routeName))
+        )
       ],
     );
   }
@@ -71,11 +75,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget buildFirstStepContentInputWidget() {
-    return Input(
-      placeholder: "请输入手机号",
-      valueCallBack: (text){
-        print("text == $text");
-      },
+    return Padding(
+      padding: EdgeInsets.only(left: 8.px),
+      child: Input(
+        placeholder: "请输入手机号",
+        valueCallBack: (text){
+          print("text == $text");
+        },
+      ),
     );
   }
 }

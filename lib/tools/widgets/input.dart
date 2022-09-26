@@ -18,6 +18,7 @@ class Input extends StatefulWidget {
     Key? key,
     this.leading,
     this.trailing,
+    this.hintStyle,
     this.borderType = BorderType.noBorder,
     this.borderWidth = 1,
     Color? borderColor,
@@ -25,6 +26,7 @@ class Input extends StatefulWidget {
     this.keyboardType,
     this.obscureText,
     this.isShowVerificationCode,
+    this.contentPadding,
     this.valueCallBack,
     this.callback
   }) : borderColor = ColorExtension.lineColor,
@@ -34,6 +36,8 @@ class Input extends StatefulWidget {
   final Widget? leading;
   ///输入框末尾的组件
   final Widget? trailing;
+  ///占位符字体样式
+  final TextStyle? hintStyle;
   ///边框风格
   final BorderType? borderType;
   ///边框宽度
@@ -50,6 +54,7 @@ class Input extends StatefulWidget {
   final TextInputType? keyboardType;
   ///文本输入时的回调
   final ValueCallBack? valueCallBack;
+  final EdgeInsets? contentPadding;
   ///获取验证码按钮点击回调
   final VoidCallback? callback;
 
@@ -61,28 +66,25 @@ class _InputState extends State<Input> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.px,vertical: 4.px),
-      child: TextField(
-        style: const TextStyle(textBaseline: TextBaseline.alphabetic),
-        keyboardType: widget.keyboardType,
-        obscureText: widget.obscureText ?? false,
-        onChanged: widget.valueCallBack,
-        cursorColor: Colors.black26,
-        decoration: InputDecoration(
-          hintText: widget.placeholder,
-          hintStyle: const TextStyle(color: Colors.black26),
-          prefixIconColor: Colors.black54,
-          focusColor: Colors.black54,
-          prefixIcon: widget.leading,
-          suffix: buildCodeButton(),
-          prefixIconConstraints: BoxConstraints(minWidth: 34.px),
-          border: buildBorder(),
-          enabledBorder: buildBorder(),
-          focusedBorder: buildBorder(),
-          disabledBorder: buildBorder(),
-          contentPadding: EdgeInsets.zero
-        ),
+    return TextField(
+      style: const TextStyle(textBaseline: TextBaseline.alphabetic),
+      keyboardType: widget.keyboardType,
+      obscureText: widget.obscureText ?? false,
+      onChanged: widget.valueCallBack,
+      cursorColor: Colors.black26,
+      decoration: InputDecoration(
+        hintText: widget.placeholder,
+        hintStyle: widget.hintStyle ?? const TextStyle(color: Colors.black26),
+        prefixIconColor: Colors.black54,
+        focusColor: Colors.black54,
+        prefixIcon: widget.leading,
+        suffix: buildCodeButton(),
+        prefixIconConstraints: BoxConstraints(minWidth: 34.px),
+        border: buildBorder(),
+        enabledBorder: buildBorder(),
+        focusedBorder: buildBorder(),
+        disabledBorder: buildBorder(),
+        contentPadding: widget.contentPadding ?? EdgeInsets.zero
       ),
     );
   }

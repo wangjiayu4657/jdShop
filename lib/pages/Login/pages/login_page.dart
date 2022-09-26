@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../pages/Login/pages/register_page.dart';
+import '../../../pages/Login/pages/register_first_page.dart';
 import '../../../tools/extension/int_extension.dart';
 import '../../../tools/widgets/shopping_button.dart';
 import '../../../tools/widgets/input.dart';
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 44.px,
       fontWeight: FontWeight.bold,
       backgroundColor: Colors.redAccent,
-      onPressed: () => Navigator.pushNamed(context, RegisterPage.routeName),
+      onPressed: () => Navigator.pushNamed(context, RegisterFirstPage.routeName),
     );
   }
 }

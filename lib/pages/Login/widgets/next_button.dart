@@ -8,9 +8,17 @@ import '../../../tools/widgets/normal_button.dart';
 class NextButton extends StatefulWidget {
   const NextButton({
     Key? key,
+    this.title,
+    this.height,
+    this.textStyle,
+    this.backgroundColor,
     this.callback,
   }) : super(key: key);
 
+  final String? title;
+  final double? height;
+  final TextStyle? textStyle;
+  final Color? backgroundColor;
   final VoidCallback? callback;
 
   @override
@@ -32,33 +40,31 @@ class _NextButtonState extends State<NextButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.px,vertical: 8.px),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          NormalButton(
-            title: "下一步",
-            backgroundColor: ColorExtension.bgColor,
-            style: const TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),
-            callback: widget.callback,
-          ),
-          SizedBox(height: 10.px),
-          Text.rich(
-            TextSpan(children: [
-              const TextSpan(text: "遇到问题?您可以",style: TextStyle(color: Colors.black26)),
-              TextSpan(
-                text: "联系客服",
-                recognizer: _tapGestureRecognizer,
-                style:const TextStyle(
-                  color: Colors.black45,
-                  decoration: TextDecoration.underline
-                )
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        NormalButton(
+          title: widget.title ?? "下一步",
+          height: widget.height,
+          backgroundColor: widget.backgroundColor ?? ColorExtension.bgColor,
+          style: widget.textStyle ?? const TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),
+          callback: widget.callback,
+        ),
+        SizedBox(height: 10.px),
+        Text.rich(
+          TextSpan(children: [
+            const TextSpan(text: "遇到问题?您可以",style: TextStyle(color: Colors.black26)),
+            TextSpan(
+              text: "联系客服",
+              recognizer: _tapGestureRecognizer,
+              style:const TextStyle(
+                color: Colors.black45,
+                decoration: TextDecoration.underline
               )
-            ])
-          )
-        ],
-      ),
+            )
+          ])
+        )
+      ],
     );
   }
 }

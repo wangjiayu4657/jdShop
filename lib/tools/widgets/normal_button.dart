@@ -21,16 +21,16 @@ class NormalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width ?? double.infinity,
-      height: height ?? 44.px,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(8.px),
-      ),
-      child: InkWell(
-        onTap: callback,
+    return InkWell(
+      onTap: callback,
+      child: Container(
+        width: width ?? double.infinity,
+        height: height ?? 44.px,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(8.px),
+        ),
         child: Text(title ?? "",style: style),
       ),
     );

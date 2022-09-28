@@ -48,7 +48,7 @@ class _NextButtonState extends State<NextButton> {
           height: widget.height,
           backgroundColor: widget.backgroundColor ?? ColorExtension.bgColor,
           style: widget.textStyle ?? const TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),
-          callback: widget.callback,
+          onPressed: widget.callback,
         ),
         SizedBox(height: 10.px),
         Text.rich(

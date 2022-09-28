@@ -47,6 +47,7 @@ dependencies:
   #  pull_to_refresh: ^2.0.0
   event_bus: ^2.0.0                                 #事件总线
   fluttertoast: ^8.0.9                              #toast提示
+  city_pickers: ^1.1.3                              #城市选择器
 
 
 dev_dependencies:

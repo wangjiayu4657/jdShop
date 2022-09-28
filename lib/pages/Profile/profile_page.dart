@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/CustomWidgets/placeholder_image.dart';
-import 'package:jdShop/pages/Login/pages/login_page.dart';
-import 'package:jdShop/tools/extension/color_extension.dart';
-import 'package:jdShop/tools/extension/int_extension.dart';
+import 'package:provider/provider.dart';
+
+import '../../tools/extension/int_extension.dart';
+import '../../tools/extension/color_extension.dart';
+import '../../pages/Login/models/login_model.dart';
+import '../../pages/Login/pages/login_page.dart';
+import '../../pages/Login/view_models/login_view_model.dart';
+import '../../pages/Profile/setting_page.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -17,14 +21,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: ColorExtension.bgColor,
-        child: CustomScrollView(
-          slivers: [
-            buildAppBarSliver(),
-            buildListViewSliver(),
-          ],
+    return ChangeNotifierProvider(
+      create: (ctx) => LoginViewModel(),
+      child: Scaffold(
+        body: Container(
+          color: ColorExtension.bgColor,
+          child: CustomScrollView(
+            slivers: [
+              buildAppBarSliver(),
+              buildListViewSliver(),
+            ],
+          ),
         ),
       ),
     );
@@ -36,20 +43,30 @@ class _ProfilePageState extends State<ProfilePage> {
       pinned: true,
       centerTitle: false,
       expandedHeight: 88.px,
+      actions: [
+        IconButton(
+          onPressed: () => Navigator.pushNamed(context, SettingPage.routeName),
+          icon:const Icon(Icons.settings)
+        )
+      ],
       flexibleSpace: FlexibleSpaceBar(
         title: Padding(
           padding: EdgeInsets.only(left: 12.px),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage("assets/images/user.png"),
-              ),
-              SizedBox(width: 8.px),
-              // buildUserInfoWidget("13636639052"),
-              buildLoginWidget(),
-            ],
+          child: Consumer<LoginViewModel>(
+            builder: (context,viewModel,child){
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  child!,
+                  SizedBox(width: 8.px),
+                  viewModel.isLogin ? buildUserInfoWidget(viewModel.loginModel) : buildLoginWidget(),
+                ],
+              );
+            },
+            child: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage("assets/images/user.png"),
+            ),
           ),
         ),
         background: AspectRatio(
@@ -100,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //构建用户信息组件
-  Widget buildUserInfoWidget(String userName) {
+  Widget buildUserInfoWidget(LoginModel? model) {
     return Padding(
       padding: EdgeInsets.fromLTRB(4.px, 8.px, 0, 0),
       child: Column(
@@ -108,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("用户名: $userName",style: TextStyle(fontSize: 12.px)),
+          Text("用户名: ${model?.username ?? ""}",style: TextStyle(fontSize: 12.px)),
           SizedBox(height: 2.px),
           Row(
             mainAxisSize: MainAxisSize.min,

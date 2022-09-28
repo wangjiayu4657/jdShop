@@ -1,6 +1,6 @@
 import '../../../tools/http/http_client.dart';
 import '../../../tools/extension/object_extension.dart';
-import '../../../pages/Login/view_models/user_info_service.dart';
+import '../../../pages/Login/view_models/user_service.dart';
 
 class RegisterViewModel {
 
@@ -63,7 +63,7 @@ class RegisterViewModel {
       };
     }
 
-    UserInfoService.saveUserInfo(userInfo);
+    UserService.saveUserInfo(userInfo);
   }
 
   //校验手机号码格式是否正确

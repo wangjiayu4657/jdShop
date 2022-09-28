@@ -1,0 +1,42 @@
+[
+  {
+    "icon": "0xe3b1",
+    "title": "登录密码修改",
+    "height": 0.5
+  },
+  {
+    "icon": "0xe503",
+    "title": "手势密码修改",
+    "height": 0.5
+  },
+  {
+    "icon": "0xf27f",
+    "title": "删除账号",
+    "height": 0.5
+  },
+  {
+    "icon": "0xe49d",
+    "title": "账号迁移",
+    "height": 0.5
+  },
+  {
+    "icon": "0xec8b",
+    "title": "分享给好友",
+    "height": 8.0
+  },
+  {
+    "icon": "0xf643",
+    "title": "清理缓存",
+    "height": 8.0
+  },
+  {
+    "icon": "0xef7c",
+    "title": "关于",
+    "height": 60.0
+  },
+  {
+    "icon": "",
+    "title": "退出登录",
+    "height": 48.0
+  }
+]

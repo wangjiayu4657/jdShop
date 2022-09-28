@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:jdShop/pages/Category/models/tab_item_model.dart';
 
+import '../../pages/Category/models/tab_item_model.dart';
+import '../../pages/Profile/models/setting_model.dart';
 
 class JsonParse {
   static Future<T> dataFromJson<T>(String path) async {
@@ -16,4 +17,11 @@ class JsonParse {
     List result = await dataFromJson(path);
     return result.map((e) => TabItemModel.fromJson(e)).toList();
   }
+
+  //从本地获取设置数据模型
+  static Future<List<SettingModel>> loadSettingItemFromFile(String path) async{
+    List result = await dataFromJson(path);
+    return result.map((e) => SettingModel.fromJson(e)).toList();
+  }
+
 }

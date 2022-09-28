@@ -9,7 +9,7 @@ class NormalButton extends StatelessWidget {
     this.height,
     this.style,
     this.backgroundColor,
-    this.callback
+    this.onPressed
   }) : super(key: key);
 
   final String? title;
@@ -17,12 +17,12 @@ class NormalButton extends StatelessWidget {
   final double? height;
   final TextStyle? style;
   final Color? backgroundColor;
-  final VoidCallback? callback;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: callback,
+      onTap: onPressed,
       child: Container(
         width: width ?? double.infinity,
         height: height ?? 44.px,

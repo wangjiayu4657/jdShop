@@ -4,6 +4,7 @@ import '../../../pages/Login/pages/register_first_page.dart';
 import '../../../tools/extension/int_extension.dart';
 import '../../../tools/widgets/shopping_button.dart';
 import '../../../tools/widgets/input.dart';
+import '../view_models/login_view_model.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -16,8 +17,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  late String _username = "";
+  late String _password = "";
+  late final LoginViewModel _viewModel = LoginViewModel();
+
   void hiddenKeyboard()  {
     FocusScope.of(context).requestFocus(FocusNode());
+  }
+
+  void loginRequest() async {
+    var model = await _viewModel.loginRequest(_username, _password);
+    if(model == null) return;
+    print("model.id  == ${model.id}");
+    if(mounted) Navigator.of(context).pop();
   }
 
   @override
@@ -62,10 +74,7 @@ class _LoginPageState extends State<LoginPage> {
         placeholder: "用户名/手机号",
         leading: const Icon(Icons.person,color: Colors.black54),
         borderType: BorderType.underlineBorder,
-        isShowVerificationCode: true,
-        valueCallBack: (text) {
-          print("username == $text");
-       },
+        valueCallBack: (username) => _username = username,
     );
   }
 
@@ -75,9 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       borderType: BorderType.underlineBorder,
       leading: const Icon(Icons.lock,color: Colors.black54),
-      valueCallBack: (text) {
-        print("password == $text");
-      },
+      valueCallBack: (password) => _password = password,
     );
   }
 
@@ -107,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
       height: 44.px,
       fontWeight: FontWeight.bold,
       backgroundColor: Colors.redAccent,
-      onPressed: () => debugPrint("登录"),
+      onPressed: loginRequest,
     );
   }
 }

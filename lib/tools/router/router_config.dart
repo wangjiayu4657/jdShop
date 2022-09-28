@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Profile/setting_page.dart';
 
 import '../../pages/Home/home_page.dart';
 import '../../pages/Main/main_page.dart';
@@ -22,6 +23,7 @@ class RouterConfig {
     ProfilePage.routeName: (ctx) => const ProfilePage(),
     SearchPage.routeName: (ctx) => const SearchPage(),
     LoginPage.routeName: (ctx) => const LoginPage(),
+    SettingPage.routeName: (ctx) => const SettingPage(),
     RegisterFirstPage.routeName: (ctx) => const RegisterFirstPage(),
     RegisterSecondPage.routeName: (ctx,{arguments}) => RegisterSecondPage(arguments: arguments),
     CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),

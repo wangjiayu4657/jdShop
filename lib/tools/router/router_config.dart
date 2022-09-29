@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Cart/settlement_page.dart';
 import 'package:jdShop/pages/Profile/setting_page.dart';
 
 import '../../pages/Home/home_page.dart';
@@ -28,6 +29,7 @@ class RouterConfig {
     RegisterSecondPage.routeName: (ctx,{arguments}) => RegisterSecondPage(arguments: arguments),
     CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),
     ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments),
+    SettlementPage.routeName: (ctx) => const SettlementPage(),
   };
 
   //统一处理

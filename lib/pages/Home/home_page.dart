@@ -115,6 +115,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   //猜你喜欢item
   Widget buildLikeItem(BuildContext context, ProductItemModel model) {
+    print("model.imageUrl == ${model.imageUrl}");
     return InkWell(
       onTap: () => Navigator.pushNamed(context, ProductDetailPage.routeName,arguments: model.id),
       child: Column(

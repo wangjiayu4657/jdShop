@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Cart/settlement_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../tools/extension/object_extension.dart';
@@ -30,6 +31,7 @@ class _CartPageState extends State<CartPage> {
   //结算
   void settlement() {
     debugPrint("结算");
+    Navigator.pushNamed(context, SettlementPage.routeName);
   }
 
   @override

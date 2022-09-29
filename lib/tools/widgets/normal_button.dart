@@ -8,6 +8,7 @@ class NormalButton extends StatelessWidget {
     this.width,
     this.height,
     this.style,
+    this.textColor = Colors.white,
     this.backgroundColor,
     this.onPressed
   }) : super(key: key);
@@ -16,6 +17,7 @@ class NormalButton extends StatelessWidget {
   final double? width;
   final double? height;
   final TextStyle? style;
+  final Color? textColor;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
 
@@ -31,7 +33,7 @@ class NormalButton extends StatelessWidget {
           color: backgroundColor,
           borderRadius: BorderRadius.circular(8.px),
         ),
-        child: Text(title ?? "",style: style),
+        child: Text(title ?? "",style: style ?? TextStyle(color: textColor)),
       ),
     );
   }

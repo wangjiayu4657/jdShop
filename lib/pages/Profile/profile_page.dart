@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
-import '../../pages/Login/models/login_model.dart';
+import '../../pages/Login/models/user_model.dart';
 import '../../pages/Login/pages/login_page.dart';
 import '../../pages/Login/view_models/login_view_model.dart';
 import '../../pages/Profile/setting_page.dart';
@@ -54,6 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: EdgeInsets.only(left: 12.px),
           child: Consumer<LoginViewModel>(
             builder: (context,viewModel,child){
+            print("viewModel.isLogin == ${viewModel.isLogin}");
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -117,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //构建用户信息组件
-  Widget buildUserInfoWidget(LoginModel? model) {
+  Widget buildUserInfoWidget(UserModel? model) {
     return Padding(
       padding: EdgeInsets.fromLTRB(4.px, 8.px, 0, 0),
       child: Column(

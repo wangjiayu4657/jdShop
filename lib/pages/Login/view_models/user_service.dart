@@ -19,9 +19,9 @@ class UserService {
   }
 
   //获取当前用户信息
-  static Future<Map<String,dynamic>> get currentUserInfo async {
+  static Future<Map<String,dynamic>?> get currentUserInfo async {
     var users = await userInfoList;
-    var userInfo = json.decode(users.last);
+    var userInfo = users.isNotEmpty ? json.decode(users.last) : null;
     return userInfo;
   }
 

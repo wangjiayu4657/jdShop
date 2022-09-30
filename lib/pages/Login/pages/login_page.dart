@@ -21,15 +21,21 @@ class _LoginPageState extends State<LoginPage> {
   late String _password = "";
   late final LoginViewModel _viewModel = LoginViewModel();
 
-  void hiddenKeyboard()  {
-    FocusScope.of(context).requestFocus(FocusNode());
-  }
-
+  //登录
   void loginRequest() async {
     var model = await _viewModel.loginRequest(_username, _password);
     if(model == null) return;
-    print("model.id  == ${model.id}");
-    if(mounted) Navigator.of(context).pop();
+    goBackToPreviousPage();
+  }
+
+  //返回上一页
+  void goBackToPreviousPage() {
+    Navigator.of(context).pop();
+  }
+
+  //隐藏键盘
+  void hiddenKeyboard()  {
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
   @override

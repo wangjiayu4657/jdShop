@@ -1,18 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-
 import 'user_service.dart';
-import '../models/login_model.dart';
+import '../models/user_model.dart';
 import '../../../tools/http/http_client.dart';
 import '../../../tools/extension/object_extension.dart';
 
-
 class LoginViewModel extends ChangeNotifier {
-
   //是否登录
-  late LoginModel? loginModel;
+  late UserModel? loginModel;
   late bool _isLogin = false;
 
   LoginViewModel() {
@@ -23,31 +18,40 @@ class LoginViewModel extends ChangeNotifier {
     _isLogin = await UserService.isLogin;
     if(_isLogin){
       var jsonData = await UserService.currentUserInfo;
-      loginModel = LoginModel.fromJson(jsonData);
+      if(jsonData != null){
+        loginModel = UserModel.fromJson(jsonData);
+      }
     }
   }
 
   //登录请求
-  Future<LoginModel?> loginRequest(String userName,String password) async {
+  Future<UserModel?> loginRequest(String userName,String password) async {
     var param = {"username":userName,"password":password};
     var response = await HttpClient.request(url: "api/doLogin",method: "post",params: param);
     bool isSuccess = response["success"];
     if(isSuccess){
       showToast(response["message"]);
-      loginModel = LoginModel.fromJson(response);
+      loginModel = UserModel.fromJson(response);
       _isLogin = true;
     } else {
       String id = "${userName}_$password";
       var userInfo = await UserService.userInfo(id);
       bool success = userInfo["success"];
-      print("success  == $success");
       showToast(userInfo["message"]);
-      loginModel = success ? LoginModel.fromJson(userInfo) : null;
+      loginModel = success ? UserModel.fromJson(userInfo) : null;
       _isLogin = success;
     }
     UserService.saveLoginState(_isLogin);
     return loginModel;
   }
+
+  //退出登录
+  void loginOutRequest() {
+    _isLogin = false;
+    loginModel = null;
+    UserService.saveLoginState(_isLogin);
+  }
+
 
   // setter and getter
 
@@ -55,7 +59,6 @@ class LoginViewModel extends ChangeNotifier {
 
   set isLogin(bool value) {
     _isLogin = value;
-    print("_isLogin == $value");
     notifyListeners();
   }
 }

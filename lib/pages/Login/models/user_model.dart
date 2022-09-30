@@ -1,6 +1,6 @@
-class LoginModel {
+class UserModel {
 
-  LoginModel({
+  UserModel({
     this.id,
     this.username,
     this.password,
@@ -12,7 +12,7 @@ class LoginModel {
   final String? password;
   final String? salt;
 
-  factory LoginModel.fromJson(Map<String,dynamic>json) => LoginModel(
+  factory UserModel.fromJson(Map<String,dynamic>json) => UserModel(
     id: json["id"],
     username: json["username"],
     password: json["password"],

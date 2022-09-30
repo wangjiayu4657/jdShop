@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/tools/widgets/normal_button.dart';
+import 'package:jdShop/tools/share/user_manager.dart';
 
 import 'models/setting_model.dart';
+import '../../tools/widgets/normal_button.dart';
 import '../../tools/json_parse/json_parse.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
+import '../../pages/Login/view_models/login_view_model.dart';
+
 
 class SettingPage extends StatefulWidget {
   static const String routeName = "/setting";
@@ -24,6 +27,7 @@ class _SettingPageState extends State<SettingPage> {
     loadSettingData();
   }
 
+  //获取本地设置数据
   void loadSettingData() async {
     var result = await JsonParse.loadSettingItemFromFile("assets/jsons/setting_item.json");
     setState(() => items = result);

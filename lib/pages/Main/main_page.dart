@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/tools/share/user_manager.dart';
 import 'main_config.dart';
 
 class MainPage extends StatefulWidget {
@@ -10,8 +11,15 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage>  {
-  int _currentIdx = 3;
+  int _currentIdx = 0;
   late PageController controller = PageController(initialPage: _currentIdx);
+
+  @override
+  void initState() {
+    super.initState();
+
+    UserManager.instance;
+  }
 
   @override
   Widget build(BuildContext context) {

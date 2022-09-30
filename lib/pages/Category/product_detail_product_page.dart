@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../pages/Category/view_models/product_detail_view_model.dart';
-import '../../tools/event_bus/cart_event_bus.dart';
+import '../../tools/event_bus/event_bus.dart';
 import 'widgets/product_filter.dart';
 
 

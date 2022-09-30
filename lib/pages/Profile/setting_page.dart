@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/tools/share/user_manager.dart';
 
 import 'models/setting_model.dart';
+import '../../tools/share/user_manager.dart';
+import '../../tools/event_bus/event_bus.dart';
 import '../../tools/widgets/normal_button.dart';
 import '../../tools/json_parse/json_parse.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
-import '../../pages/Login/view_models/login_view_model.dart';
 
 
 class SettingPage extends StatefulWidget {
@@ -78,8 +78,10 @@ class _SettingPageState extends State<SettingPage> {
         height: model.height,
         backgroundColor: Colors.redAccent,
         style: TextStyle(color: Colors.white,fontSize: 16.px,fontWeight: FontWeight.bold),
-        onPressed: (){
-          print("退出登录");
+        onPressed: () async {
+          eventBus.fire(LogoutEventBus());
+          UserManager().saveLoginState(false);
+          Navigator.pop(context);
         },
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Cart/settlement_page.dart';
 import 'package:provider/provider.dart';
 
-import '../../tools/extension/object_extension.dart';
 import '../../tools/extension/int_extension.dart';
+import '../../tools/extension/object_extension.dart';
+import '../../pages/Cart/settlement_page.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../pages/Category/models/product_detail_model.dart';
 import 'widgets/stepper.dart' as step;

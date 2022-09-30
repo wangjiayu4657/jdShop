@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/tools/event_bus/event_bus.dart';
 
 import '../../../pages/Login/pages/register_first_page.dart';
 import '../../../tools/extension/int_extension.dart';
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   void loginRequest() async {
     var model = await _viewModel.loginRequest(_username, _password);
     if(model == null) return;
+    eventBus.fire(LoginEventBus(user: model));
     goBackToPreviousPage();
   }
 

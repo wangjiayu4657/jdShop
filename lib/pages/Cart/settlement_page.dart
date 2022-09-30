@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/tools/share/const_config.dart';
 
 import '../../tools/widgets/normal_button.dart';
 import '../../tools/extension/int_extension.dart';
@@ -60,6 +59,7 @@ class _SettlementPageState extends State<SettlementPage> {
         trailing: Icon(Icons.arrow_forward_ios,size: 16.px),
         minLeadingWidth: 8.px,
         visualDensity: const VisualDensity(horizontal: -4),
+        contentPadding: EdgeInsets.symmetric(horizontal:12.px),
       ),
     );
   }

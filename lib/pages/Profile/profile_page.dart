@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+
+import '../../tools/share/user_manager.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
+import '../../tools/event_bus/event_bus.dart';
 import '../../pages/Login/models/user_model.dart';
 import '../../pages/Login/pages/login_page.dart';
-import '../../pages/Login/view_models/login_view_model.dart';
 import '../../pages/Profile/setting_page.dart';
 
 
@@ -19,19 +21,44 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
+  UserModel? _user;
+  StreamSubscription? _loginSubscription;
+  StreamSubscription? _logoutSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = UserManager.instance.currentUser;
+
+    //登录
+    _loginSubscription = eventBus.on<LoginEventBus>().listen((event) {
+      setState(() => _user = event.user);
+    });
+
+    //登出
+    _logoutSubscription = eventBus.on<LogoutEventBus>().listen((event) {
+      setState(() => _user = null);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _loginSubscription?.cancel();
+    _logoutSubscription?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => LoginViewModel(),
-      child: Scaffold(
-        body: Container(
-          color: ColorExtension.bgColor,
-          child: CustomScrollView(
-            slivers: [
-              buildAppBarSliver(),
-              buildListViewSliver(),
-            ],
-          ),
+    return Scaffold(
+      body: Container(
+        color: ColorExtension.bgColor,
+        child: CustomScrollView(
+          slivers: [
+            buildAppBarSliver(),
+            buildListViewSliver(),
+          ],
         ),
       ),
     );
@@ -52,22 +79,16 @@ class _ProfilePageState extends State<ProfilePage> {
       flexibleSpace: FlexibleSpaceBar(
         title: Padding(
           padding: EdgeInsets.only(left: 12.px),
-          child: Consumer<LoginViewModel>(
-            builder: (context,viewModel,child){
-            print("viewModel.isLogin == ${viewModel.isLogin}");
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  child!,
-                  SizedBox(width: 8.px),
-                  viewModel.isLogin ? buildUserInfoWidget(viewModel.loginModel) : buildLoginWidget(),
-                ],
-              );
-            },
-            child: const CircleAvatar(
-              backgroundColor: Colors.transparent,
-              backgroundImage: AssetImage("assets/images/user.png"),
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage("assets/images/user.png"),
+              ),
+              SizedBox(width: 8.px),
+              _user == null ? buildLoginWidget() : buildUserInfoWidget(_user),
+            ],
           ),
         ),
         background: AspectRatio(

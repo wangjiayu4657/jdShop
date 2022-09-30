@@ -12,7 +12,7 @@ class UserManager extends ChangeNotifier {
   //是否登录
   late bool _isLogin = false;
   //当前用户信息
-  late UserModel? currentUser = UserModel();
+  UserModel? currentUser;
 
   // 工厂方法构造函数 - 通过UserModel()获取对象1
   factory UserManager() => _getInstance();
@@ -38,7 +38,7 @@ class UserManager extends ChangeNotifier {
   void initUserInformation() async {
     _isLogin = await UserService.isLogin;
     var userMap = await UserService.currentUserInfo;
-    if(userMap != null) {
+    if(_isLogin && userMap != null){
       currentUser = UserModel.fromJson(userMap);
     }
   }
@@ -56,6 +56,16 @@ class UserManager extends ChangeNotifier {
   //检查是否注册过
   Future<bool> checkIsRegister(Map<String,dynamic> info) async{
     return await UserService.checkIsRegister(info);
+  }
+
+  //保存登录状态
+  void saveLoginState(bool login){
+    _isLogin = login;
+  }
+
+  //删除登录状态
+  void logout() async{
+    _isLogin = false;
   }
 
   //保存用户信息

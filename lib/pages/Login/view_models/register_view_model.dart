@@ -1,6 +1,5 @@
 import '../../../tools/http/http_client.dart';
 import '../../../tools/extension/object_extension.dart';
-import '../../../pages/Login/view_models/user_service.dart';
 
 class RegisterViewModel {
 
@@ -39,7 +38,7 @@ class RegisterViewModel {
   }]
   */
   //注册账号
-  void registerAccountRequest(Map<String,dynamic> params) async {
+  Future<Map<String,dynamic>> registerAccountRequest(Map<String,dynamic> params) async {
     var response = await HttpClient.request(url: "api/register",method: "post",params: params);
     bool result = response["success"];
     String msg = response["message"];
@@ -63,7 +62,8 @@ class RegisterViewModel {
       };
     }
 
-    UserService.saveUserInfo(userInfo);
+    return userInfo;
+    // UserManager().saveUserInfo(userInfo);
   }
 
   //校验手机号码格式是否正确

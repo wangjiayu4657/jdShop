@@ -15,7 +15,7 @@ import '../../pages/Category/product_detail_product_page.dart';
 import '../../pages/Category/product_detail_evaluation_page.dart';
 import '../../tools/widgets/shopping_button.dart';
 import '../../pages/Category/view_models/product_detail_view_model.dart';
-import '../../tools/event_bus/cart_event_bus.dart';
+import '../../tools/event_bus/event_bus.dart';
 
 class ProductDetailPage extends StatefulWidget {
   static const String routeName = "/productDetail";

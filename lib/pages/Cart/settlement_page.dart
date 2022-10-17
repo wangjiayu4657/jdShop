@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Cart/address_add_page.dart';
 
 import '../../tools/widgets/normal_button.dart';
 import '../../tools/extension/int_extension.dart';
@@ -60,6 +61,7 @@ class _SettlementPageState extends State<SettlementPage> {
         minLeadingWidth: 8.px,
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.symmetric(horizontal:12.px),
+        onTap: () => Navigator.pushNamed(context, AddressAddPage.routeName),
       ),
     );
   }

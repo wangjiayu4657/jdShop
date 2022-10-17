@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jdShop/pages/Cart/address_add_page.dart';
+import 'package:jdShop/pages/Cart/address_list_page.dart';
 import 'package:jdShop/pages/Cart/settlement_page.dart';
 import 'package:jdShop/pages/Profile/setting_page.dart';
 
@@ -30,6 +32,8 @@ class RouterConfig {
     CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),
     ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments),
     SettlementPage.routeName: (ctx) => const SettlementPage(),
+    AddressAddPage.routeName: (ctx) => const AddressAddPage(),
+    AddressListPage.routeName: (ctx) => const AddressListPage()
   };
 
   //统一处理

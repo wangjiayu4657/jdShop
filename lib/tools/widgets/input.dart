@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import '../../tools/widgets/code_button.dart';
@@ -27,9 +29,12 @@ class Input extends StatefulWidget {
     this.obscureText,
     this.isShowVerificationCode,
     this.contentPadding,
+    double? textOffset,
+    this.maxLines = 1,
     this.valueCallBack,
     this.callback
   }) : borderColor = ColorExtension.lineColor,
+       textOffset = textOffset ?? 0,
        super(key: key);
 
   ///输入框前面的组件
@@ -54,7 +59,12 @@ class Input extends StatefulWidget {
   final TextInputType? keyboardType;
   ///文本输入时的回调
   final ValueCallBack<String>? valueCallBack;
+  ///内容内边距
   final EdgeInsets? contentPadding;
+  ///文本垂直对齐偏移量,取值范围: -1.0 ~ 1.0
+  final double textOffset;
+  ///最大行数,默认为1行
+  final int? maxLines;
   ///获取验证码按钮点击回调
   final VoidCallback? callback;
 
@@ -72,6 +82,8 @@ class _InputState extends State<Input> {
       obscureText: widget.obscureText ?? false,
       onChanged: widget.valueCallBack,
       cursorColor: Colors.black26,
+      maxLines: widget.maxLines,
+      textAlignVertical: TextAlignVertical(y: widget.textOffset),
       decoration: InputDecoration(
         hintText: widget.placeholder,
         hintStyle: widget.hintStyle ?? const TextStyle(color: Colors.black26),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AddressListPage extends StatefulWidget {
+  static const String routeName = "/addressList";
   const AddressListPage({Key? key}) : super(key: key);
 
   @override

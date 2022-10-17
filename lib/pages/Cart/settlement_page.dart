@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jdShop/pages/Cart/address_add_page.dart';
+import 'package:jdShop/pages/Cart/address_list_page.dart';
 
 import '../../tools/widgets/normal_button.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../tools/extension/color_extension.dart';
+import '../../pages/Cart/address_add_page.dart';
+import '../../pages/Cart/models/address_model.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
+import '../../pages/Cart/view_models/addressViewModel.dart';
 
 //订单结算页
 class SettlementPage extends StatefulWidget {
@@ -16,6 +19,21 @@ class SettlementPage extends StatefulWidget {
 }
 
 class _SettlementPageState extends State<SettlementPage> {
+
+  late AddressModel model = AddressModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    defaultAddress();
+  }
+
+  void defaultAddress() async{
+    model = await AddressViewModel.defaultModel;
+    setState(() { });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +74,25 @@ class _SettlementPageState extends State<SettlementPage> {
       color: Colors.white,
       child: ListTile(
         leading: const Icon(Icons.location_on),
-        title: const Text("请添加您的收货地址"),
+        title: Text(model.address ?? "请添加您的收货地址"),
         trailing: Icon(Icons.arrow_forward_ios,size: 16.px),
         minLeadingWidth: 8.px,
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.symmetric(horizontal:12.px),
-        onTap: () => Navigator.pushNamed(context, AddressAddPage.routeName),
+        onTap: () {
+          if(model.address == null) {
+            Navigator.pushNamed(context, AddressAddPage.routeName);
+          } else {
+            Navigator.pushNamed(context, AddressListPage.routeName).then((value) {
+              setState(() {
+                if(value != null){
+                  model = value as AddressModel;
+                  AddressViewModel.changeDefaultState(model);
+                }
+              });
+            });
+          }
+        },
       ),
     );
   }

@@ -18,8 +18,9 @@ class AddressAddPage extends StatefulWidget {
 
 class _AddressAddPageState extends State<AddressAddPage> {
 
+  late String addressDetail = "";
   late AddressModel model = AddressModel();
-  // late AddressViewModel viewModel = AddressViewModel();
+
 
   // 通过钩子事件, 主动唤起浮层.
   void getResult () async {
@@ -43,6 +44,10 @@ class _AddressAddPageState extends State<AddressAddPage> {
       print("address ==  ${model.address}");
       showToast("请先选择省市区");
       return false;
+    }
+
+    if(addressDetail.isNotEmpty){
+      model.address = "${model.address} $addressDetail";
     }
 
     return true;
@@ -82,17 +87,16 @@ class _AddressAddPageState extends State<AddressAddPage> {
         Text("收件人$text: ",style: TextStyle(fontSize: 16.px)),
         SizedBox(width: 5.px),
         Expanded(child: Input(
-                placeholder: "请输入收件人$text",
-                textOffset: 0.06,
-                valueCallBack: (val) {
-                  if(text == "姓名"){
-                    print("name value  == $val");
-                    model.name = val;
-                  } else {
-                    print("tel value  == $val");
-                    model.tel = val;
-                  }
-                }))
+          placeholder: "请输入收件人$text",
+          textOffset: 0.06,
+          valueCallBack: (val) {
+            if(text == "姓名"){
+              model.name = val;
+            } else {
+              model.tel = val;
+            }
+          })
+        )
       ],
     );
   }
@@ -120,7 +124,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
         placeholder: "详细地址",
         maxLines: null,
         valueCallBack: (detail){
-          model.address = "${model.address} $detail";
+          addressDetail = detail;
         },
       ),
     );

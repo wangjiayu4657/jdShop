@@ -31,7 +31,12 @@ class _CartPageState extends State<CartPage> {
   //结算
   void settlement() {
     debugPrint("结算");
-    Navigator.pushNamed(context, SettlementPage.routeName);
+    var products = _viewModel.selectedProducts();
+    if(products.isNotEmpty) {
+      Navigator.pushNamed(context, SettlementPage.routeName,arguments: {"products":  products});
+    } else {
+      showToast("您还没有选择要结算的商品");
+    }
   }
 
   @override

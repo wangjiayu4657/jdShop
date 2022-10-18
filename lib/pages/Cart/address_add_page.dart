@@ -25,23 +25,20 @@ class _AddressAddPageState extends State<AddressAddPage> {
   // 通过钩子事件, 主动唤起浮层.
   void getResult () async {
     Result? result = await CityPickers.showCityPicker(context: context);
-    setState(() {
-      model.address = "${result?.provinceName} ${result?.cityName} ${result?.areaName}";
-    });
+    if(result == null) return;
+    var address = "${result.provinceName} ${result.cityName} ${result.areaName}";
+    setState(() =>  model.address = address);
   }
 
   //判空处理
   bool checkInfoIsEmpty() {
     if(model.name == null){
-      print("name ==  ${model.name}");
       showToast("请先输入收件人名称");
       return false;
     } else if(model.tel == null) {
-      print("tel ==  ${model.tel}");
       showToast("请先输入收件人电话");
       return false;
     } else if(model.address == null || model.address == "省/市/区"){
-      print("address ==  ${model.address}");
       showToast("请先选择省市区");
       return false;
     }
@@ -103,16 +100,16 @@ class _AddressAddPageState extends State<AddressAddPage> {
 
 
   Widget buildAddressItemWidget() {
-    return SizedBox(
-      height: 44.px,
-      child: Row(
-        children: [
-          const Icon(Icons.location_on_outlined),
-          InkWell(
-            onTap: getResult,
-            child: Text(model.address ?? "省/市/区",style: TextStyle(fontSize: 16.px)),
-          )
-        ],
+    return InkWell(
+      onTap: getResult,
+      child: SizedBox(
+        height: 44.px,
+        child: Row(
+          children: [
+            const Icon(Icons.location_on_outlined),
+            Text(model.address ?? "省/市/区",style: TextStyle(fontSize: 16.px))
+          ],
+        ),
       ),
     );
   }

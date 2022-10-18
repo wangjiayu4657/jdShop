@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jdShop/pages/Cart/address_list_page.dart';
+import 'package:jdShop/tools/extension/object_extension.dart';
 
 import '../../tools/widgets/normal_button.dart';
 import '../../tools/extension/int_extension.dart';
@@ -8,11 +9,14 @@ import '../../pages/Cart/address_add_page.dart';
 import '../../pages/Cart/models/address_model.dart';
 import '../../pages/CustomWidgets/placeholder_image.dart';
 import '../../pages/Cart/view_models/addressViewModel.dart';
+import '../Category/models/product_detail_model.dart';
 
 //订单结算页
 class SettlementPage extends StatefulWidget {
   static const String routeName = "/settlement";
-  const SettlementPage({Key? key}) : super(key: key);
+  const SettlementPage({Key? key,this.arguments}) : super(key: key);
+
+  final Map<String,dynamic>? arguments;
 
   @override
   State<SettlementPage> createState() => _SettlementPageState();
@@ -20,11 +24,17 @@ class SettlementPage extends StatefulWidget {
 
 class _SettlementPageState extends State<SettlementPage> {
 
+  late String totalPrice = "0";
   late AddressModel model = AddressModel();
+  late List<ProductDetailModel> products = [];
 
   @override
   void initState() {
     super.initState();
+
+    products = widget.arguments?["products"] ?? [];
+    var total = products.fold<double>(0, (previousValue, element) => previousValue + mapToDouble(element.price) * element.count);
+    totalPrice = "$total";
 
     defaultAddress();
   }
@@ -99,14 +109,14 @@ class _SettlementPageState extends State<SettlementPage> {
   
   Widget buildListViewContentWidget() { 
     return ListView.builder(
-      itemCount: 3,
+      itemCount: products.length,
       itemBuilder: (context,idx){
-        return buildListViewContentItemWidget();
+        return buildListViewContentItemWidget(products[idx]);
       },
     );
   }
 
-  Widget buildListViewContentItemWidget() {
+  Widget buildListViewContentItemWidget(ProductDetailModel model) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -116,9 +126,9 @@ class _SettlementPageState extends State<SettlementPage> {
           SizedBox(height: 8.px),
           Row(
             children: [
-              buildListViewContentItemImageWidget(),
+              buildListViewContentItemImageWidget(model),
               SizedBox(width: 10.px),
-              Expanded(child: buildListViewContentItemContentWidget()),
+              Expanded(child: buildListViewContentItemContentWidget(model)),
             ],
           ),
           SizedBox(height: 8.px),
@@ -128,28 +138,28 @@ class _SettlementPageState extends State<SettlementPage> {
     );
   }
 
-  Widget buildListViewContentItemImageWidget() {
+  Widget buildListViewContentItemImageWidget(ProductDetailModel model) {
     return Container(
       width: 64.px,
       height: 80.px,
       padding: EdgeInsets.symmetric(vertical: 8.px),
-      child: const PlaceholderImage(url: "https://jdmall.itying.com/public/upload/dTGwzmlZEDu7dHpTjnMuaEPf.png"),
+      child: PlaceholderImage(url: model.imgUrl),
     );
   }
 
-  Widget buildListViewContentItemContentWidget() {
+  Widget buildListViewContentItemContentWidget(ProductDetailModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("flutter仿京东商城项目实战练习"),
+        Text(model.title ?? ""),
         SizedBox(height: 4.px),
-        const Text("白色,系带"),
+        Text(model.filter),
         SizedBox(height: 4.px),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children:const [
-            Text("￥100",style: TextStyle(color: Colors.redAccent)),
-            Text("x1")
+          children:[
+            Text("${model.price}",style: const TextStyle(color: Colors.redAccent)),
+            Text("x ${model.count}")
           ],
         )
       ],
@@ -165,7 +175,7 @@ class _SettlementPageState extends State<SettlementPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("商品总金额: ￥180元"),
+          Text("商品总金额: ￥$totalPrice元"),
           SizedBox(height: 10.px),
           const Text("立减: ￥10元"),
           SizedBox(height: 10.px),
@@ -177,6 +187,7 @@ class _SettlementPageState extends State<SettlementPage> {
 
   //构建底部工具组件
   Widget buildBottomToolWidget() {
+    double orderPrice = mapToDouble(totalPrice) - 10 + 18;
     return Container(
       height: 64.px,
       padding: EdgeInsets.symmetric(horizontal: 15.px),
@@ -186,7 +197,7 @@ class _SettlementPageState extends State<SettlementPage> {
       ),
       child: Row(
         children: [
-          Expanded(child: buildTotalPriceWidget("128元")),
+          Expanded(child: buildTotalPriceWidget("$orderPrice元")),
           NormalButton(
             width: 100.px,
             height: 34.px,

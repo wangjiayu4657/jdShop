@@ -28,7 +28,7 @@ class ProductDetailModel {
     this.cname,
     this.attr,
     this.subTitle,
-    this.salecount,
+    this.saleCount,
     int? count,
     String? filter,
     bool? isChecked
@@ -50,7 +50,7 @@ class ProductDetailModel {
   String? cname;
   List<FilterModel>? attr;
   String? subTitle;
-  int? salecount;
+  int? saleCount;
 
   //添加额外字段
   late int count = 1;
@@ -75,7 +75,7 @@ class ProductDetailModel {
     cname: json["cname"],
     attr: List<FilterModel>.from(json["attr"].map((x) => FilterModel.fromJson(x))),
     subTitle: json["sub_title"],
-    salecount: json["salecount"],
+    saleCount: json["salecount"],
     count:json["count"],
     filter: json["filter"],
     isChecked: json["isChecked"]
@@ -96,7 +96,7 @@ class ProductDetailModel {
     "cname": cname,
     "attr": List<dynamic>.from(attr??[].map((x) => x.toJson())),
     "sub_title": subTitle,
-    "salecount": salecount,
+    "salecount": saleCount,
     "count": count,
     "filter": filter,
     "isChecked": isChecked

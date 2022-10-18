@@ -31,7 +31,7 @@ class RouterConfig {
     RegisterSecondPage.routeName: (ctx,{arguments}) => RegisterSecondPage(arguments: arguments),
     CategoryProductPage.routeName : (ctx,{ arguments }) => CategoryProductPage(argument: arguments),
     ProductDetailPage.routeName : (ctx,{ arguments }) => ProductDetailPage(id: arguments),
-    SettlementPage.routeName: (ctx) => const SettlementPage(),
+    SettlementPage.routeName: (ctx,{arguments}) => SettlementPage(arguments:arguments),
     AddressAddPage.routeName: (ctx) => const AddressAddPage(),
     AddressListPage.routeName: (ctx) => const AddressListPage()
   };

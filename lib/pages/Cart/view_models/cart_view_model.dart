@@ -44,6 +44,11 @@ class CartViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  //获取选中的商品列表
+  List<ProductDetailModel> selectedProducts() {
+    return products.where((element) => element.isChecked).toList();
+  }
+
   //全选
   void allSelected(bool isChecked) {
     products.forEach((element) => element.isChecked = isChecked);

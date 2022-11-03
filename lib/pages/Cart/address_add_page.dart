@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:city_pickers/city_pickers.dart';
-import 'package:jdShop/pages/Cart/view_models/addressViewModel.dart';
+import 'package:jdShop/pages/Cart/view_models/address_view_model.dart';
 
 import '../../../tools/widgets/input.dart';
 import '../../../tools/widgets/normal_button.dart';

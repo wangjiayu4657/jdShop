@@ -80,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildUserNameInputWidget() {
     return Input(
         placeholder: "用户名/手机号",
+        textOffset: -0.8,
         leading: const Icon(Icons.person,color: Colors.black54),
         borderType: BorderType.underlineBorder,
         valueCallBack: (username) => _username = username,
@@ -90,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
     return Input(
       placeholder: "请输入密码",
       obscureText: true,
+      textOffset: -0.8,
       borderType: BorderType.underlineBorder,
       leading: const Icon(Icons.lock,color: Colors.black54),
       valueCallBack: (password) => _password = password,

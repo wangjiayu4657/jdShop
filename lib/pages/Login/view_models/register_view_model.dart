@@ -1,5 +1,8 @@
+import 'package:jdShop/pages/Login/view_models/user_service.dart';
+
 import '../../../tools/http/http_client.dart';
 import '../../../tools/extension/object_extension.dart';
+import '../../../tools/share/user_manager.dart';
 
 class RegisterViewModel {
 
@@ -11,7 +14,6 @@ class RegisterViewModel {
     _tel = tel;
     if(!_checkTelephoneNumber()) return;
     var response = await HttpClient.request(url: "api/sendCode",method: "post",params: {"tel":tel});
-    print("result === $response");
     bool result = response["success"];
     if(!result) {
       String msg = response["message"];
@@ -61,9 +63,9 @@ class RegisterViewModel {
         "salt": id,
       };
     }
-
+    //同步到UserManager中
+    UserManager.instance.saveUserInfo(userInfo);
     return userInfo;
-    // UserManager().saveUserInfo(userInfo);
   }
 
   //校验手机号码格式是否正确

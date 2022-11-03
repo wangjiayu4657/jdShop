@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../tools/widgets/normal_button.dart';
 import '../../tools/extension/int_extension.dart';
 import '../../pages/Cart/models/address_model.dart';
-import '../../pages/Cart/view_models/addressViewModel.dart';
+import '../../pages/Cart/view_models/address_view_model.dart';
 import 'address_add_page.dart';
 
 class AddressListPage extends StatefulWidget {

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../../tools/share/user_manager.dart';
@@ -32,7 +31,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
     //登录
     _loginSubscription = eventBus.on<LoginEventBus>().listen((event) {
-      setState(() => _user = event.user);
+      setState(() {
+        _user = event.user;
+        UserManager.instance.currentUser = _user;
+      });
     });
 
     //登出

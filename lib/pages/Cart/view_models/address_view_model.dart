@@ -29,7 +29,10 @@ class AddressViewModel {
   //保存地址
   static save(AddressModel model) async {
     var temp = await AddressViewModel.addressList;
-    if (temp.any((element) => element.address != model.address)) {
+    if(temp.isEmpty){
+      model.isDefault = true;
+      temp.add(model);
+    } else if (temp.any((element) => element.address != model.address)) {
        temp.forEach((element) => element.isDefault = false);
        model.isDefault = true;
        temp.add(model);
@@ -37,7 +40,7 @@ class AddressViewModel {
 
     //将模型数组映射成字符串数组
     List<String> tempList = temp.map((e) => jsonEncode(e.toJson())).toList();
-
+    print("model address === ${model.address}");
     if(tempList.isNotEmpty){
       Storage.save<List<String>>(kAddressKey, tempList);
     }

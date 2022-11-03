@@ -39,9 +39,29 @@ class _SettlementPageState extends State<SettlementPage> {
     defaultAddress();
   }
 
+  //获取默认地址
   void defaultAddress() async{
     model = await AddressViewModel.defaultModel;
     setState(() { });
+  }
+
+  //跳转目标页
+  void gotoTargetWidget() {
+    String routeName = model.address == null ? AddressAddPage.routeName : AddressListPage.routeName;
+    //返回时刷新地址
+    Navigator.pushNamed(context, routeName).then(refreshAddress);
+  }
+
+  //刷新地址
+  void refreshAddress(value) {
+    if(value == null){
+      defaultAddress();
+    } else {
+      setState(() {
+        model = value as AddressModel;
+        AddressViewModel.changeDefaultState(model);
+      });
+    }
   }
 
   @override
@@ -89,20 +109,7 @@ class _SettlementPageState extends State<SettlementPage> {
         minLeadingWidth: 8.px,
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.symmetric(horizontal:12.px),
-        onTap: () {
-          if(model.address == null) {
-            Navigator.pushNamed(context, AddressAddPage.routeName);
-          } else {
-            Navigator.pushNamed(context, AddressListPage.routeName).then((value) {
-              setState(() {
-                if(value != null){
-                  model = value as AddressModel;
-                  AddressViewModel.changeDefaultState(model);
-                }
-              });
-            });
-          }
-        },
+        onTap: gotoTargetWidget,
       ),
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:city_pickers/city_pickers.dart';
-import 'package:jdShop/pages/Cart/view_models/address_view_model.dart';
 
 import '../../../tools/widgets/input.dart';
 import '../../../tools/widgets/normal_button.dart';
 import '../../../tools/extension/int_extension.dart';
 import '../../../tools/extension/object_extension.dart';
 import '../../../pages/Cart/models/address_model.dart';
+import '../../pages/Cart/view_models/address_view_model.dart';
 
 class AddressAddPage extends StatefulWidget {
   static const String routeName = "/addressAdd";
@@ -135,7 +135,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
       onPressed: (){
         if(checkInfoIsEmpty()) {
           AddressViewModel.save(model);
-          Navigator.pop(context);
+          Navigator.of(context).pop(model);
         }
       },
     );

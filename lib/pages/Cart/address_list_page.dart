@@ -25,15 +25,32 @@ class _AddressListPageState extends State<AddressListPage> {
     getAddressList();
   }
 
+  //获取地址列表
   void getAddressList() async{
     addressList = await AddressViewModel.addressList;
     setState(() {});
   }
 
+  //跳转目标页
+  void gotoTargetWidget() {
+    Navigator.pushNamed(context, AddressAddPage.routeName).then((value) => refreshAddressList());
+  }
+
+  //刷新地址列表
+  void refreshAddressList() {
+    getAddressList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("地址选择")),
+      appBar: AppBar(
+        title: const Text("地址选择"),
+        leading: InkWell(
+          onTap: () => Navigator.of(context).pop(),
+          child: const Icon(Icons.arrow_back_ios)
+        ),
+      ),
       body: buildContentWidget(),
     );
   }
@@ -92,7 +109,7 @@ class _AddressListPageState extends State<AddressListPage> {
         title: "添加地址",
         textColor: Colors.white,
         backgroundColor: Colors.redAccent,
-        onPressed: () => Navigator.pushNamed(context, AddressAddPage.routeName),
+        onPressed: gotoTargetWidget,
       ),
     );
   }
